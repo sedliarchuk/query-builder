@@ -1,42 +1,25 @@
 {
-    "name": "sedliarchuk/query-builder",
-    "version": "1.0.0",
-    "type": "symfony-bundle",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "license" : "MIT",
+    "name" : "sedliarchuk/query-builder",
+    "description" : "Symfony REST Design filters",
+    "version" : "1.0.0",
+    "type" : "symfony-bundle",
     "homepage": "https://github.com/sedliarchuk/query-builder",
-    "authors": [
-        {
-            "name": "Sedliarchuk Sergey",
-            "email": "sedliarchuk@gmail.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "": ["src", "tests"]
-        }
+    "license" : "MIT",
+    "keywords" : ["filter", "query builder bundle"],
+    "authors" : [{
+        "name" : "Sedliarchuk Sergey",
+        "email" : "sedliarchuk@gmail.com"
+    }],
+    "require" : {
+        "php": ">=7.0",
+        "symfony/symfony": ">=3.1"
     },
-    "config": {
-        "platform": {
-            "php":"7.1"
-        },
-        "bin-dir": "bin"
+    "autoload" : {
+        "psr-4" : { "Sedliarchuk\\QueryBuilderBundle\\" : "" }
     },
-    "require": {
-        "symfony/dependency-injection": "^3.3",
-        "symfony/config": "^3.3",
-        "symfony/http-kernel": "^3.3",
-        "doctrine/orm": "^2.5",
-        "pagerfanta/pagerfanta": "^1.0",
-        "willdurand/hateoas": "2.10"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^6.3"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
+    "extra" : {
+        "branch-alias" : {
+            "dev-master" : "1.0.x-dev"
         }
     }
 }
