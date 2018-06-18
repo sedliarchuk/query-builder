@@ -1,6 +1,9 @@
 {
     "name": "sedliarchuk/query-builder",
+    "version": "1.0.0",
     "type": "symfony-bundle",
+    "license" : "MIT",
+    "homepage": "https://github.com/sedliarchuk/query-builder",
     "authors": [
         {
             "name": "Sedliarchuk Sergey",
@@ -31,7 +34,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.4-dev"
+            "dev-master": "1.0.x-dev"
         }
     }
 }
