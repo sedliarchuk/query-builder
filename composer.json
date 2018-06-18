@@ -15,7 +15,9 @@
         "symfony/symfony": ">=3.1"
     },
     "autoload" : {
-        "psr-4" : { "Sedliarchuk\\QueryBuilderBundle\\" : "" }
+        "psr-4": {
+            "": ["src", "tests"]
+        }
     },
     "extra" : {
         "branch-alias" : {
