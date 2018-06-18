@@ -11,7 +11,7 @@ namespace Sedliarchuk\QueryBuilderBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class QueryBuilderBundle extends Bundle
+class SedliarchukQueryBuilderBundle extends Bundle
 {
 
 }
