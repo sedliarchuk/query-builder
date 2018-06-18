@@ -2,6 +2,7 @@
     "name": "sedliarchuk/query-builder",
     "version": "1.0.0",
     "type": "symfony-bundle",
+    "minimum-stability": "dev",
     "license" : "MIT",
     "homepage": "https://github.com/sedliarchuk/query-builder",
     "authors": [
