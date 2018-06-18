@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Interfaces;
+namespace Sedliarchuk\QueryBundle\Interfaces;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Mado\QueryBundle\Component\Meta\GraphWalker;

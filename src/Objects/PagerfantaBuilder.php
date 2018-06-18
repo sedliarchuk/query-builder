@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Objects;
+namespace Sedliarchuk\QueryBundle\Objects;
 
 use Hateoas\Representation\Factory\PagerfantaFactory;
 use Pagerfanta\Adapter\DoctrineORMAdapter;

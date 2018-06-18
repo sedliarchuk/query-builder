@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Interfaces;
+namespace Sedliarchuk\QueryBundle\Interfaces;
 
 interface AdditionalFilterable
 {

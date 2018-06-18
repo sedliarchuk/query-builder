@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Queries\Objects;
+namespace Sedliarchuk\QueryBundle\Queries\Objects;
 
 use Mado\QueryBundle\Services\StringParser;
 use Mado\QueryBundle\Dictionary;

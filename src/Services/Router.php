@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Services;
+namespace Sedliarchuk\QueryBundle\Services;
 
 use Hateoas\Configuration\Route;
 use Mado\QueryBundle\Queries\QueryBuilderOptions;

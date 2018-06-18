@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Component\Meta;
+namespace Sedliarchuk\QueryBundle\Component\Meta;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;

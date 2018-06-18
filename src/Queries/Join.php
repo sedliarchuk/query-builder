@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Queries;
+namespace Sedliarchuk\QueryBundle\Queries;
 
 use Doctrine\ORM\EntityManager;
 use Mado\QueryBundle\Services\StringParser;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Services;
+namespace Sedliarchuk\QueryBundle\Services;
 
 use Mado\QueryBundle\Objects\PagerfantaBuilder;
 use Mado\QueryBundle\Queries\QueryBuilderOptions;

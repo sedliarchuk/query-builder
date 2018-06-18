@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Component\Meta;
+namespace Sedliarchuk\QueryBundle\Component\Meta;
 
 /**
  * @since Interface available since Release 2.1.0

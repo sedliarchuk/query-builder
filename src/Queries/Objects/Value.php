@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Queries\Objects;
+namespace Sedliarchuk\QueryBundle\Queries\Objects;
 
 /**
  * @since class available since release 2.1.3

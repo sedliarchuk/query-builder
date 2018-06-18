@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Services;
+namespace Sedliarchuk\QueryBundle\Services;
 
 class StringParser
 {

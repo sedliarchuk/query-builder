@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Repositories;
+namespace Sedliarchuk\QueryBundle\Repositories;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;

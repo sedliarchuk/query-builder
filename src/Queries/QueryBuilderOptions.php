@@ -1,6 +1,6 @@
 <?php
 
-namespace Mado\QueryBundle\Queries;
+namespace Sedliarchuk\QueryBundle\Queries;
 
 class QueryBuilderOptions
 {
