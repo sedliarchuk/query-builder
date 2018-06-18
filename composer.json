@@ -1,0 +1,37 @@
+{
+    "name": "sedliarchuk/query-builder",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Sedliarchuk Sergey",
+            "email": "sedliarchuk@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "": ["src", "tests"]
+        }
+    },
+    "config": {
+        "platform": {
+            "php":"7.1"
+        },
+        "bin-dir": "bin"
+    },
+    "require": {
+        "symfony/dependency-injection": "^3.3",
+        "symfony/config": "^3.3",
+        "symfony/http-kernel": "^3.3",
+        "doctrine/orm": "^2.5",
+        "pagerfanta/pagerfanta": "^1.0",
+        "willdurand/hateoas": "2.10"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.3"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    }
+}
