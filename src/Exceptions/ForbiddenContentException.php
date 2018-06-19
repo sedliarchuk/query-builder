@@ -1,6 +1,6 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Exceptions;
+namespace Sedliarchuk\QueryBuilder\Exceptions;
 
 final class ForbiddenContentException extends \Exception
 {

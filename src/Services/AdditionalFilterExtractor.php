@@ -1,8 +1,8 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Services;
+namespace Sedliarchuk\QueryBuilder\Services;
 
-use Mado\QueryBundle\Interfaces\AdditionalFilterable;
+use Sedliarchuk\QueryBuilder\Interfaces\AdditionalFilterable;
 
 final class AdditionalFilterExtractor
 {

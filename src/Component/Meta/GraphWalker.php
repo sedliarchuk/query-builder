@@ -1,6 +1,6 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Component\Meta;
+namespace Sedliarchuk\QueryBuilder\Component\Meta;
 
 /**
  * @since Class available since Release 2.1.1

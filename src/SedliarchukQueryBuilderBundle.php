@@ -6,7 +6,7 @@
  * Time: 13:41
  */
 
-namespace Sedliarchuk\QueryBuilderBundle;
+namespace Sedliarchuk\QueryBuilder;
 
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;

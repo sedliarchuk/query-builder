@@ -1,9 +1,9 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Queries\Objects;
+namespace Sedliarchuk\QueryBuilder\Queries\Objects;
 
-use Mado\QueryBundle\Services\StringParser;
-use Mado\QueryBundle\Dictionary;
+use Sedliarchuk\QueryBuilder\Services\StringParser;
+use Sedliarchuk\QueryBuilder\Dictionary;
 
 /** @since class available since release 2.2 */
 final class FilterObject

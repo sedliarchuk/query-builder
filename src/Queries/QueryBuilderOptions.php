@@ -1,6 +1,6 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Queries;
+namespace Sedliarchuk\QueryBuilder\Queries;
 
 class QueryBuilderOptions
 {

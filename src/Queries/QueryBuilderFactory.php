@@ -1,12 +1,12 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Queries;
+namespace Sedliarchuk\QueryBuilder\Queries;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
-use Mado\QueryBundle\Component\Meta\Exceptions\UnInitializedQueryBuilderException;
-use Mado\QueryBundle\Dictionary;
-use Mado\QueryBundle\Exceptions;
+use Sedliarchuk\QueryBuilder\Component\Meta\Exceptions\UnInitializedQueryBuilderException;
+use Sedliarchuk\QueryBuilder\Dictionary;
+use Sedliarchuk\QueryBuilder\Exceptions;
 
 class QueryBuilderFactory extends AbstractQuery
 {

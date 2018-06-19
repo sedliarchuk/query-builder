@@ -1,8 +1,8 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Queries;
+namespace Sedliarchuk\QueryBuilder\Queries;
 
-use Mado\QueryBundle\Services\StringParser;
+use Sedliarchuk\QueryBuilder\Services\StringParser;
 
 class OrFilter
 {

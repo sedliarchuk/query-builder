@@ -1,6 +1,6 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle;
+namespace Sedliarchuk\QueryBuilder;
 
 class Dictionary
 {

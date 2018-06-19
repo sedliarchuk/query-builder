@@ -1,9 +1,9 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Queries;
+namespace Sedliarchuk\QueryBuilder\Queries;
 
 use Doctrine\ORM\EntityManager;
-use Mado\QueryBundle\Services\StringParser;
+use Sedliarchuk\QueryBuilder\Services\StringParser;
 
 class Join
 {

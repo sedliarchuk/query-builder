@@ -1,6 +1,6 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\DependencyInjection;
+namespace Sedliarchuk\QueryBuilder\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

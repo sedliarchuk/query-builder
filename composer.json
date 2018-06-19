@@ -16,7 +16,7 @@
     },
     "autoload":{
         "psr-4":{
-            "Sedliarchuk\\QueryBuilder\\": "src"
+            "Sedliarchuk\\QueryBuilder\\": "src/"
         },
         "exclude-from-classmap": [
             "Tests/"

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Component\Meta\Exceptions;
+namespace Sedliarchuk\QueryBuilder\Component\Meta\Exceptions;
 use Throwable;
 
 /**

@@ -1,9 +1,9 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Services;
+namespace Sedliarchuk\QueryBuilder\Services;
 
-use Mado\QueryBundle\Objects\PagerfantaBuilder;
-use Mado\QueryBundle\Queries\QueryBuilderOptions;
+use Sedliarchuk\QueryBuilder\Objects\PagerfantaBuilder;
+use Sedliarchuk\QueryBuilder\Queries\QueryBuilderOptions;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 
 class Pager

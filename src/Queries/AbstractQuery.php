@@ -1,11 +1,11 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Queries;
+namespace Sedliarchuk\QueryBuilder\Queries;
 
 use Doctrine\ORM\EntityManager;
-use Mado\QueryBundle\Objects\MetaDataAdapter;
-use Mado\QueryBundle\Queries\QueryBuilderOptions;
-use Mado\QueryBundle\Services\StringParser;
+use Sedliarchuk\QueryBuilder\Objects\MetaDataAdapter;
+use Sedliarchuk\QueryBuilder\Queries\QueryBuilderOptions;
+use Sedliarchuk\QueryBuilder\Services\StringParser;
 
 abstract class AbstractQuery
 {

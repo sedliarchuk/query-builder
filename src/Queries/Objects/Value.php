@@ -1,6 +1,6 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Queries\Objects;
+namespace Sedliarchuk\QueryBuilder\Queries\Objects;
 
 /**
  * @since class available since release 2.1.3

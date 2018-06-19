@@ -1,6 +1,6 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Objects;
+namespace Sedliarchuk\QueryBuilder\Objects;
 
 class Filter
 {

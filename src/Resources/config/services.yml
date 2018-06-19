@@ -1,6 +1,6 @@
 services:
 
     mado.query_builder_factory:
-        class: Mado\QueryBundle\Queries\QueryBuilderFactory
+        class: Sedliarchuk\QueryBuilder\Queries\QueryBuilderFactory
         arguments:
             - "@doctrine.orm.entity_manager"

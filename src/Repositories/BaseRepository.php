@@ -1,16 +1,16 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Repositories;
+namespace Sedliarchuk\QueryBuilder\Repositories;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Hateoas\Representation\Factory\PagerfantaFactory;
-use Mado\QueryBundle\Exceptions\InvalidFiltersException;
-use Mado\QueryBundle\Objects\MetaDataAdapter;
-use Mado\QueryBundle\Objects\PagerfantaBuilder;
-use Mado\QueryBundle\Queries\QueryBuilderFactory;
-use Mado\QueryBundle\Queries\QueryBuilderOptions;
-use Mado\QueryBundle\Services\Pager;
+use Sedliarchuk\QueryBuilder\Exceptions\InvalidFiltersException;
+use Sedliarchuk\QueryBuilder\Objects\MetaDataAdapter;
+use Sedliarchuk\QueryBuilder\Objects\PagerfantaBuilder;
+use Sedliarchuk\QueryBuilder\Queries\QueryBuilderFactory;
+use Sedliarchuk\QueryBuilder\Queries\QueryBuilderOptions;
+use Sedliarchuk\QueryBuilder\Services\Pager;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Symfony\Component\HttpFoundation\Request;
 

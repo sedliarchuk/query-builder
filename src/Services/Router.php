@@ -1,9 +1,9 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Services;
+namespace Sedliarchuk\QueryBuilder\Services;
 
 use Hateoas\Configuration\Route;
-use Mado\QueryBundle\Queries\QueryBuilderOptions;
+use Sedliarchuk\QueryBuilder\Queries\QueryBuilderOptions;
 
 class Router
 {

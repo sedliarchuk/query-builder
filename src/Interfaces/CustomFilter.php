@@ -1,9 +1,9 @@
 <?php
 
-namespace Sedliarchuk\QueryBundle\Interfaces;
+namespace Sedliarchuk\QueryBuilder\Interfaces;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Mado\QueryBundle\Component\Meta\GraphWalker;
+use Sedliarchuk\QueryBuilder\Component\Meta\GraphWalker;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
