@@ -16,9 +16,9 @@ class QueryBuilderFactory extends AbstractQuery
 
     const DEFAULT_OPERATOR = 'eq';
 
-    private const AND_OPERATOR_LOGIC = 'AND';
+    const AND_OPERATOR_LOGIC = 'AND';
 
-    private const OR_OPERATOR_LOGIC = 'OR';
+    const OR_OPERATOR_LOGIC = 'OR';
 
     protected $qBuilder;
 
@@ -146,6 +146,7 @@ class QueryBuilderFactory extends AbstractQuery
 
     public function filter()
     {
+
         if (null === $this->andFilters && null === $this->orFilters) {
             throw new Exceptions\MissingFiltersException();
         }
@@ -153,8 +154,7 @@ class QueryBuilderFactory extends AbstractQuery
         if (!$this->fields) {
             throw new Exceptions\MissingFieldsException();
         }
-
-        if (null !== $this->andFilters) {
+        if ($this->andFilters) {
             $andFilterFactory = new AndFilter($this->entityAlias, $this->fields, $this->joinFactory);
             $andFilterFactory->createFilter($this->andFilters);
 
@@ -178,7 +178,7 @@ class QueryBuilderFactory extends AbstractQuery
             }
         }
 
-        if (null !== $this->orFilters) {
+        if ($this->orFilters) {
             $orFilterFactory = new OrFilter($this->entityAlias, $this->fields, $this->joinFactory);
             $orFilterFactory->createFilter($this->orFilters);
 

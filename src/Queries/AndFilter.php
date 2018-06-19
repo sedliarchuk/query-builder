@@ -20,7 +20,7 @@ class AndFilter
 
     private $parser;
 
-    public function __construct(string $entityAlias, array $fields, Join $join)
+    public function __construct($entityAlias, array $fields, Join $join)
     {
         $this->entityAlias = $entityAlias;
         $this->fields = $fields;
@@ -31,13 +31,13 @@ class AndFilter
         $this->parser  = new StringParser();
     }
 
-    public function createFilter(array $andFilters)
+    public function createFilter( $andFilters)
     {
-        foreach ($andFilters as $filter => $value) {
+        foreach ($andFilters as $filter) {
             $this->applyFilter(
                 Objects\FilterObject::fromRawFilter($filter),
-                $value,
-                Objects\Value::fromFilter($value)
+                $filter['data']['value'],
+                Objects\Value::fromFilter($filter['data']['value'])
             );
         }
     }

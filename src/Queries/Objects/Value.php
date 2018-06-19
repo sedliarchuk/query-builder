@@ -24,12 +24,12 @@ final class Value
 
     public function getValues()
     {
-        return $this->filter[$this->getOperator()];
+        return $this->filter['data']['values'];
     }
 
     public function getOperator()
     {
-        return key($this->filter);
+        return $this->filter['data']['type'];
     }
 
     public static function fromFilter($filter)

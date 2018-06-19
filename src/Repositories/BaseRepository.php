@@ -107,7 +107,7 @@ class BaseRepository extends EntityRepository
         $rel         = $request->query->get('rel', '');
         $page        = $request->query->get('page', '');
         $select      = $request->query->get('select', $this->metadata->getEntityAlias());
-        $filtering   = $request->query->get('filtering', '');
+        $filtering   = $request->query->get('filtering', []);
         $limit       = $request->query->get('limit', '');
 
         $filterOrCorrected = [];

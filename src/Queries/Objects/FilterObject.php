@@ -8,9 +8,9 @@ use Sedliarchuk\QueryBuilder\Dictionary;
 /** @since class available since release 2.2 */
 final class FilterObject
 {
-    private const FIELD = 0;
+    const FIELD = 0;
 
-    private const OPERATOR = 1;
+    const OPERATOR = 1;
 
     private $rawFilter;
 
@@ -18,73 +18,80 @@ final class FilterObject
 
     private $operatorName;
 
-    private function __construct(string $rawFilter)
+    private $value;
+
+    private function __construct($rawFilter)
     {
         $this->setRawFilter($rawFilter);
+        $explodedRawFilter = $rawFilter;
 
-        $explodedRawFilter = explode('|', $rawFilter);
-        if (!isset($explodedRawFilter[self::OPERATOR])) {
-            $explodedRawFilter[self::OPERATOR] = Dictionary::DEFAULT_OPERATOR;
+        if (!isset($explodedRawFilter['data']['type'])) {
+            $explodedRawFilter['data']['type'] = Dictionary::DEFAULT_OPERATOR;
         }
 
-        $fieldName = $explodedRawFilter[self::FIELD];
+        $fieldName = $explodedRawFilter['field'];
+        $this->value = $explodedRawFilter['data']['value'];
         $parser = new StringParser();
         $this->fieldName = $parser->camelize($fieldName);
 
-        $this->operatorName = $explodedRawFilter[self::OPERATOR];
+        $this->operatorName = $explodedRawFilter['data']['type'];
     }
 
-    public static function fromRawFilter(string $filter) : FilterObject
+    /**
+     * @param string $filter
+     * @return FilterObject
+     */
+    public static function fromRawFilter($filter)
     {
         return new self($filter);
     }
 
-    public function getFieldName() : string
+    public function getFieldName()
     {
         return $this->fieldName;
     }
 
-    public function getOperatorName() : string
+    public function getOperatorName()
     {
         return $this->operatorName;
     }
 
-    public function isListType() : bool
+    public function isListType()
     {
         return $this->getOperatorName() == 'list'
             || $this->getOperatorName() == 'nlist';
     }
 
-    public function isFieldEqualityType() : bool
+    public function isFieldEqualityType()
     {
         return $this->getOperatorName() == 'field_eq';
     }
 
-    public function getOperatorMeta() : string
+    public function getOperatorMeta()
     {
         return Dictionary::getOperators()[$this->getOperatorName()]['meta'];
     }
 
-    public function haveOperatorSubstitutionPattern() : bool
+    public function haveOperatorSubstitutionPattern()
     {
         $operator = Dictionary::getOperators()[$this->getOperatorName()];
 
         return isset($operator['substitution_pattern']);
     }
 
-    public function getOperatorsSubstitutionPattern() : string
+    public function getOperatorsSubstitutionPattern()
     {
         $operator = Dictionary::getOperators()[$this->getOperatorName()];
 
         return $operator['substitution_pattern'];
     }
 
-    public function setRawFilter(string $rawFilter)
+    public function setRawFilter($rawFilter)
     {
-        $this->rawFilter = $rawFilter;
+        $this->rawFilter = http_build_query($rawFilter);
     }
 
-    public function getRawFilter() : string
+    public function getRawFilter()
     {
         return $this->rawFilter;
     }
@@ -94,12 +101,12 @@ final class FilterObject
         return $this->operatorName;
     }
 
-    public function isNullType() : bool
+    public function isNullType()
     {
         return $this->getOperatorName() === 'isnull' || $this->getOperatorName() === 'isnotnull';
     }
 
-    public function isListContainsType() : bool
+    public function isListContainsType()
     {
         return $this->getOperatorName() === 'listcontains';
     }
