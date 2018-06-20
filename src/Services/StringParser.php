@@ -2,23 +2,32 @@
 
 namespace Sedliarchuk\QueryBuilder\Services;
 
+/**
+ * Class StringParser
+ * @package Sedliarchuk\QueryBuilder\Services
+ */
 class StringParser
 {
-    public function numberOfTokens(string $string)
+    public function numberOfTokens($string)
     {
         return count($this->exploded($string));
     }
 
-    private function exploded(string $string)
+    private function exploded($string)
     {
         return explode('_', $string);
     }
 
-    public function tokenize(string $string, int $position)
+    public function tokenize($string, $position)
     {
         return $this->exploded($string)[$position];
     }
 
+
+    /**
+     * @param $string
+     * @return string
+     */
     public function camelize($string)
     {
         $camelized = $this->tokenize($string, 0);

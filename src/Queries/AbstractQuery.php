@@ -23,7 +23,9 @@ abstract class AbstractQuery
 
     public function __construct(EntityManager $manager)
     {
+        //назначаем менеджер
         $this->manager = $manager;
+
         $this->parser  = new StringParser();
     }
 

@@ -38,10 +38,12 @@ class BaseRepository extends EntityRepository
     {
         parent::__construct($manager, $class);
 
+        //описание репозитория
         $this->metadata = new MetaDataAdapter();
         $this->metadata->setClassMetadata($this->getClassMetadata());
         $this->metadata->setEntityName($this->getEntityName());
 
+        //собираем запрос к базе данных передаем менеджер
         $this->queryBuilderFactory = new QueryBuilderFactory($this->getEntityManager());
     }
 
