@@ -128,7 +128,7 @@ class QueryBuilderFactory extends AbstractQuery
         }
     }
 
-    private function joinAlreadyDone($join) :bool
+    private function joinAlreadyDone($join)
     {
         $needle = $join['field'] . '_' . $join['relation'];
         if (in_array($needle, $this->joins)) {
@@ -146,7 +146,6 @@ class QueryBuilderFactory extends AbstractQuery
 
     public function filter()
     {
-
         if (null === $this->andFilters && null === $this->orFilters) {
             throw new Exceptions\MissingFiltersException();
         }
@@ -246,7 +245,7 @@ class QueryBuilderFactory extends AbstractQuery
         return $this;
     }
 
-    public function getQueryBuilder() :QueryBuilder
+    public function getQueryBuilder()
     {
         if (!$this->qBuilder) {
             throw new UnInitializedQueryBuilderException();
@@ -262,7 +261,10 @@ class QueryBuilderFactory extends AbstractQuery
         return $this;
     }
 
-    public function getRel() : array
+    /**
+     * @return array
+     */
+    public function getRel()
     {
         return $this->rel;
     }
@@ -284,14 +286,14 @@ class QueryBuilderFactory extends AbstractQuery
         return $this->printing;
     }
 
-    public function setPage(int $page)
+    public function setPage($page)
     {
         $this->page = $page;
 
         return $this;
     }
 
-    public function getPage() :int
+    public function getPage()
     {
         return $this->page;
     }
@@ -308,7 +310,7 @@ class QueryBuilderFactory extends AbstractQuery
         return $this->pageLength;
     }
 
-    public function setSelect($select) : QueryBuilderFactory
+    public function setSelect($select)
     {
         $this->select = $select;
 
@@ -320,10 +322,14 @@ class QueryBuilderFactory extends AbstractQuery
         return $this->select;
     }
 
-    public function getEntityManager() : EntityManager
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager()
     {
         return $this->manager;
     }
+
 
     public function ensureQueryBuilderIsDefined()
     {

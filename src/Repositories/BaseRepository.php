@@ -112,6 +112,10 @@ class BaseRepository extends EntityRepository
         $filtering   = $request->query->get('filtering', []);
         $limit       = $request->query->get('limit', '');
 
+        if ( ! is_array($filters) and json_decode($filters)) $filters =  json_decode($filters, true);
+        if ( ! is_array($orFilters) and json_decode($filters)) $orFilters =  json_decode($orFilters, true);
+        if ( ! is_array($filtering) and json_decode( $filtering)) $filtering =  json_decode($filtering, true);
+
         $filterOrCorrected = [];
 
         $count = 0;
@@ -174,6 +178,10 @@ class BaseRepository extends EntityRepository
         $filtering = $request->query->get('filtering', '');
         $limit = $request->query->get('limit', '');
 
+        if ( ! is_array($filters) and json_decode($filters)) $filters =  json_decode($filters, true);
+        if ( ! is_array($orFilters) and json_decode($filters)) $orFilters =  json_decode($orFilters, true);
+        if ( ! is_array($filtering) and json_decode( $filtering)) $filtering =  json_decode($filtering, true);
+
         $this->ensureFilterIsValid($filters);
         $filters = array_merge($filters, $filter);
 
@@ -220,6 +228,10 @@ class BaseRepository extends EntityRepository
         $select = $request->query->get('select', $this->metadata->getEntityAlias());
         $filtering = $request->query->get('filtering', '');
         $limit = $request->query->get('limit', '');
+
+        if ( ! is_array($filters) and json_decode($filters)) $filters =  json_decode($filters, true);
+        if ( ! is_array($orFilters) and json_decode($filters)) $orFilters =  json_decode($orFilters, true);
+        if ( ! is_array($filtering) and json_decode( $filtering)) $filtering =  json_decode($filtering, true);
 
         $orFilters = array_merge($orFilters, $orFilter);
 
@@ -303,17 +315,17 @@ class BaseRepository extends EntityRepository
         );
     }
 
-    protected function getCurrentEntityAlias() : string
+    protected function getCurrentEntityAlias()
     {
         return $this->currentEntityAlias;
     }
 
-    protected function setCurrentEntityAlias(string $currentEntityAlias)
+    protected function setCurrentEntityAlias($currentEntityAlias)
     {
         $this->currentEntityAlias = $currentEntityAlias;
     }
 
-    protected function getEmbeddedFields() : array
+    protected function getEmbeddedFields()
     {
         return $this->embeddedFields;
     }
@@ -323,7 +335,7 @@ class BaseRepository extends EntityRepository
         $this->embeddedFields = $embeddedFields;
     }
 
-    public function getEntityAlias() : string
+    public function getEntityAlias()
     {
         return $this->metadata->getEntityAlias();
     }
