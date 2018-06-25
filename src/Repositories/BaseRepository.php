@@ -28,6 +28,7 @@ class BaseRepository extends EntityRepository
 
     protected $joins = [];
 
+    /** @var QueryBuilderFactory  */
     protected $queryBuilderFactory;
 
     protected $queryOptions;
@@ -281,6 +282,12 @@ class BaseRepository extends EntityRepository
         return $this;
     }
 
+    /**
+     * @return \Hateoas\Representation\PaginatedRepresentation
+     * @throws \Sedliarchuk\QueryBuilder\Component\Meta\Exceptions\UnInitializedQueryBuilderException
+     * @throws \Sedliarchuk\QueryBuilder\Exceptions\MissingFieldsException
+     * @throws \Sedliarchuk\QueryBuilder\Exceptions\MissingFiltersException
+     */
     public function findAllPaginated()
     {
         $this->initFromQueryBuilderOptions($this->queryOptions);

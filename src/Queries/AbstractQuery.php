@@ -3,6 +3,7 @@
 namespace Sedliarchuk\QueryBuilder\Queries;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use Sedliarchuk\QueryBuilder\Objects\MetaDataAdapter;
 use Sedliarchuk\QueryBuilder\Queries\QueryBuilderOptions;
 use Sedliarchuk\QueryBuilder\Services\StringParser;
@@ -17,6 +18,7 @@ abstract class AbstractQuery
 
     protected $parser;
 
+    /** @var $qBuilder QueryBuilder */
     protected $qBuilder;
 
     protected $joinFactory;

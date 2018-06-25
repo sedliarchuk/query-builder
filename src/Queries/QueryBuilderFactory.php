@@ -92,11 +92,17 @@ class QueryBuilderFactory extends AbstractQuery
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAndFilters()
     {
         return $this->andFilters;
     }
 
+    /**
+     * @return mixed
+     */
     public function getOrFilters()
     {
         return $this->orFilters;
@@ -146,6 +152,7 @@ class QueryBuilderFactory extends AbstractQuery
 
     public function filter()
     {
+
         if (null === $this->andFilters && null === $this->orFilters) {
             throw new Exceptions\MissingFiltersException();
         }
@@ -204,6 +211,9 @@ class QueryBuilderFactory extends AbstractQuery
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function sort()
     {
         if (!$this->fields) {
@@ -245,6 +255,10 @@ class QueryBuilderFactory extends AbstractQuery
         return $this;
     }
 
+    /**
+     * @return mixed|QueryBuilder
+     * @throws UnInitializedQueryBuilderException
+     */
     public function getQueryBuilder()
     {
         if (!$this->qBuilder) {
