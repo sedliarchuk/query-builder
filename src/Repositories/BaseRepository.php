@@ -112,6 +112,7 @@ class BaseRepository extends EntityRepository
         $filtering   = $request->query->get('filtering', []);
         $limit       = $request->query->get('limit', '');
 
+        if ( ! is_array($sorting) and json_decode($sorting)) $sorting =  json_decode($sorting, true);
         if ( ! is_array($filters) and json_decode($filters)) $filters =  json_decode($filters, true);
         if ( ! is_array($orFilters) and json_decode($filters)) $orFilters =  json_decode($orFilters, true);
         if ( ! is_array($filtering) and json_decode( $filtering)) $filtering =  json_decode($filtering, true);
@@ -178,6 +179,7 @@ class BaseRepository extends EntityRepository
         $filtering = $request->query->get('filtering', '');
         $limit = $request->query->get('limit', '');
 
+        if ( ! is_array($sorting) and json_decode($sorting)) $sorting =  json_decode($sorting, true);
         if ( ! is_array($filters) and json_decode($filters)) $filters =  json_decode($filters, true);
         if ( ! is_array($orFilters) and json_decode($filters)) $orFilters =  json_decode($orFilters, true);
         if ( ! is_array($filtering) and json_decode( $filtering)) $filtering =  json_decode($filtering, true);
@@ -229,6 +231,7 @@ class BaseRepository extends EntityRepository
         $filtering = $request->query->get('filtering', '');
         $limit = $request->query->get('limit', '');
 
+        if ( ! is_array($sorting) and json_decode($sorting)) $sorting =  json_decode($sorting, true);
         if ( ! is_array($filters) and json_decode($filters)) $filters =  json_decode($filters, true);
         if ( ! is_array($orFilters) and json_decode($filters)) $orFilters =  json_decode($orFilters, true);
         if ( ! is_array($filtering) and json_decode( $filtering)) $filtering =  json_decode($filtering, true);
