@@ -31,6 +31,9 @@ class AndFilter
         $this->parser  = new StringParser();
     }
 
+    /**
+     * @param $andFilters
+     */
     public function createFilter( $andFilters)
     {
         foreach ($andFilters as $filter) {
@@ -50,6 +53,7 @@ class AndFilter
         $whereCondition = $this->entityAlias . '.' . $filterObject->getFieldName() . ' '
             . $filterObject->getOperatorMeta();
 
+        //смотрим в доступных полях наше поле
         if (in_array($filterObject->getFieldName(), $this->fields)) {
             $salt = '_' . random_int(111, 999);
 
@@ -92,9 +96,10 @@ class AndFilter
                     $this->parameters[] = $param;
                 }
             }
+        //если поле не найдено
         } else {
             if (strpos($filterObject->getFieldName(), 'Embedded.') === false) {
-                $whereCondition .= ' ' . $this->entityAlias . '.' . $value;
+                $whereCondition .= $value;
                 $this->conditions[] = $whereCondition;
             }
         }
