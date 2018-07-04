@@ -115,9 +115,7 @@ class AndFilter
         } else {
             if (strpos($filterObject->getFieldName(), 'Embedded.') === false) {
 
-                if ($filterObject->isListContainsType()) {
-                    $value = $this->encapsulateValueForLike($value);
-                } else {
+                if ( $filterObject->haveOperatorSubstitutionPattern()) {
                     $value = str_replace(
                         '{string}',
                         $value,
