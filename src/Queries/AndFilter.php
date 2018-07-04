@@ -125,6 +125,7 @@ class AndFilter
                     );
                 }
                 $whereCondition .= $value;
+                $this->conditions[] = $whereCondition;
             }
         }
 
