@@ -62,6 +62,11 @@ final class FilterObject
             || $this->getOperatorName() == 'nlist';
     }
 
+    public function isBetweenType()
+    {
+        return $this->getOperatorName() == 'between';
+    }
+
     public function isFieldEqualityType()
     {
         return $this->getOperatorName() == 'field_eq';

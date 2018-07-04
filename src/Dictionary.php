@@ -63,8 +63,7 @@ class Dictionary
             'substitution_pattern' => '({string})',
         ],
         'between' => [
-            'meta' => 'BETWEEN',
-            'substitution_pattern' => '({string})',
+            'meta' => 'BETWEEN'
         ],
     ];
 

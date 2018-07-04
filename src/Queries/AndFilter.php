@@ -66,14 +66,17 @@ class AndFilter
         if (in_array($filterObject->getFieldName(), $this->fields)) {
             //создаем соль
             $salt = '_' . random_int(111, 999);
+            $fieldName = $this->entityAlias . '.' . $filterObject->getFieldName();
 
             //если фильтр типа listcontains
             if ($filterObject->isListContainsType()) {
-                $fieldName = $this->entityAlias . '.' . $filterObject->getFieldName();
                 $whereCondition = $this->createWhereConditionForListContains($value, $fieldName, $filterObject->getFieldName(), $salt);
             //если фильтр типа list
             } elseif ($filterObject->isListType()) {
                 $whereCondition .= ' (:field_' . $filterObject->getFieldName() . $salt . ')';
+            //если фильтр типа between
+            } elseif ($filterObject->isBetweenType()) {
+                $whereCondition = $this->createWhereConditionForBetweenContains($value, $fieldName, $filterObject->getFieldName(), $salt);
             //если фильтр типа equality
             } elseif ($filterObject->isFieldEqualityType()) {
                 $whereCondition .= ' ' . $this->entityAlias . '.' . $value;
@@ -83,6 +86,7 @@ class AndFilter
             } else {
                 $whereCondition .= ' :field_' . $filterObject->getFieldName() . $salt;
             }
+
 
             $this->conditions[] = $whereCondition;
 
@@ -102,7 +106,7 @@ class AndFilter
             }
 
             if (!$filterObject->isNullType()) {
-                if ($filterObject->isListContainsType()) {
+                if ($filterObject->isListContainsType() or $filterObject->isBetweenType()) {
                     $this->addMultipleParameters($value, $filterObject->getFieldName(), $salt);
                 } else {
                     $param = [];
@@ -168,7 +172,7 @@ class AndFilter
             }
 
             if (!$filterObject->isNullType()) {
-                if ($filterObject->isListContainsType()) {
+                if ($filterObject->isListContainsType() or $filterObject->isBetweenType()) {
                     $this->addMultipleParameters($value, $embeddedFieldName, $salt);
                 } else {
                     $param = [];
@@ -182,10 +186,14 @@ class AndFilter
 
     private function addMultipleParameters($value, $fieldName, $salt)
     {
+
+        $value = explode(',', $value);
+
         foreach ($value as $key => $val) {
             $param = [];
             $param['field'] = 'field_' . $fieldName . $salt . $key;
             $param['value'] = $val;
+
             $this->parameters[] = $param;
         }
     }
@@ -210,7 +218,7 @@ class AndFilter
         return $whereCondition;
     }
 
-    private function encapsulateValueForLike(string $value)
+    private function encapsulateValueForLike($value)
     {
         $values = explode(',', $value);
         foreach ($values as $key => $val) {
@@ -233,5 +241,22 @@ class AndFilter
     public function getInnerJoin()
     {
         return $this->join->getInnerJoin();
+    }
+
+    private function createWhereConditionForBetweenContains($value, $fieldName, $fieldNameWithoutAlias, $salt)
+    {
+        $whereCondition = '';
+        $values = explode(',', $value);
+        foreach ($values as $key => $val) {
+            if ($whereCondition != '') {
+                $whereCondition .=  ' AND ';
+            }
+
+            $whereCondition .= ':field_' . str_replace('.', '_', $fieldNameWithoutAlias) . $salt . $key;
+        }
+
+        $whereCondition = $fieldName . ' BETWEEN '.$whereCondition;
+
+        return $whereCondition;
     }
 }
