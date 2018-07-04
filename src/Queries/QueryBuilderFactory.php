@@ -20,6 +20,7 @@ class QueryBuilderFactory extends AbstractQuery
 
     const OR_OPERATOR_LOGIC = 'OR';
 
+    /** @var $qBuilder QueryBuilder */
     protected $qBuilder;
 
     protected $fields;
@@ -150,16 +151,24 @@ class QueryBuilderFactory extends AbstractQuery
         $this->joins[] = $needle;
     }
 
+    /**
+     * @return $this
+     * @throws Exceptions\MissingFieldsException
+     * @throws Exceptions\MissingFiltersException
+     */
     public function filter()
     {
-
+        //проверка на наличие фильтров
         if (null === $this->andFilters && null === $this->orFilters) {
             throw new Exceptions\MissingFiltersException();
         }
 
+        //проверка на наличие полей
         if (!$this->fields) {
             throw new Exceptions\MissingFieldsException();
         }
+
+        //если есть фильтры то
         if ($this->andFilters) {
             $andFilterFactory = new AndFilter($this->entityAlias, $this->fields, $this->joinFactory);
             $andFilterFactory->createFilter($this->andFilters);

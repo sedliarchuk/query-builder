@@ -33,6 +33,7 @@ class AndFilter
 
     /**
      * @param $andFilters
+     * @throws \Exception
      */
     public function createFilter( $andFilters)
     {
@@ -45,25 +46,38 @@ class AndFilter
         }
     }
 
+    /**
+     * @param Objects\FilterObject $filterObject
+     * @param $value
+     * @param Objects\Value $filterValue
+     * @throws \Exception
+     */
     private function applyFilter(
         Objects\FilterObject $filterObject,
         $value,
         Objects\Value $filterValue
     ) {
+        //готовим запрос к базе данных
         $whereCondition = $this->entityAlias . '.' . $filterObject->getFieldName() . ' '
             . $filterObject->getOperatorMeta();
 
+
         //смотрим в доступных полях наше поле
         if (in_array($filterObject->getFieldName(), $this->fields)) {
+            //создаем соль
             $salt = '_' . random_int(111, 999);
 
+            //если фильтр типа listcontains
             if ($filterObject->isListContainsType()) {
                 $fieldName = $this->entityAlias . '.' . $filterObject->getFieldName();
                 $whereCondition = $this->createWhereConditionForListContains($value, $fieldName, $filterObject->getFieldName(), $salt);
+            //если фильтр типа list
             } elseif ($filterObject->isListType()) {
                 $whereCondition .= ' (:field_' . $filterObject->getFieldName() . $salt . ')';
+            //если фильтр типа equality
             } elseif ($filterObject->isFieldEqualityType()) {
                 $whereCondition .= ' ' . $this->entityAlias . '.' . $value;
+            //если фильтр типа null
             } elseif ($filterObject->isNullType()) {
                 $whereCondition .= ' ';
             } else {
@@ -72,6 +86,7 @@ class AndFilter
 
             $this->conditions[] = $whereCondition;
 
+            //имеет ли шаблоны запросов
             if ($filterObject->haveOperatorSubstitutionPattern()) {
                 if ($filterObject->isListContainsType()) {
                     $value = $this->encapsulateValueForLike($value);
@@ -99,8 +114,17 @@ class AndFilter
         //если поле не найдено
         } else {
             if (strpos($filterObject->getFieldName(), 'Embedded.') === false) {
+
+                if ($filterObject->isListContainsType()) {
+                    $value = $this->encapsulateValueForLike($value);
+                } else {
+                    $value = str_replace(
+                        '{string}',
+                        $value,
+                        $filterObject->getOperatorsSubstitutionPattern()
+                    );
+                }
                 $whereCondition .= $value;
-                $this->conditions[] = $whereCondition;
             }
         }
 
@@ -167,7 +191,7 @@ class AndFilter
         }
     }
 
-    private function createWhereConditionForListContains($value, $fieldName, $fieldNameWithoutAlias, $salt) :string
+    private function createWhereConditionForListContains($value, $fieldName, $fieldNameWithoutAlias, $salt)
     {
         $whereCondition = '';
         $values = explode(',', $value);
@@ -187,7 +211,7 @@ class AndFilter
         return $whereCondition;
     }
 
-    private function encapsulateValueForLike(string $value) : array
+    private function encapsulateValueForLike(string $value)
     {
         $values = explode(',', $value);
         foreach ($values as $key => $val) {
@@ -197,17 +221,17 @@ class AndFilter
         return $values;
     }
 
-    public function getConditions() :array
+    public function getConditions()
     {
         return $this->conditions;
     }
 
-    public function getParameters() :array
+    public function getParameters()
     {
         return $this->parameters;
     }
 
-    public function getInnerJoin() :array
+    public function getInnerJoin()
     {
         return $this->join->getInnerJoin();
     }
