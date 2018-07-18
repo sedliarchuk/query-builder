@@ -206,7 +206,8 @@ class QueryBuilderFactory extends AbstractQuery
             $leftJoins = $orFilterFactory->getLeftJoin();
 
             if ($conditions !== '') {
-                $this->qBuilder->andWhere(implode('OR ', $conditions));
+                
+                $this->qBuilder->andWhere(implode(' OR ', $conditions));
 
                 foreach ($parameters as $parameter) {
                     $this->qBuilder->setParameter($parameter['field'], $parameter['value']);

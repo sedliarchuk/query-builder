@@ -124,8 +124,9 @@ class OrFilter
                 $whereCondition .= ' :field_' . $embeddableFieldName . $salt;
             }
 
+
             if ('' != $this->conditions) {
-                $this->conditions .= ' OR ' . $whereCondition;
+                $this->conditions .= ' AND ' . $whereCondition;
             } else {
                 $this->conditions = $whereCondition;
             }
