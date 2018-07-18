@@ -71,7 +71,10 @@ class QueryBuilderFactory extends AbstractQuery
         return $this->fields;
     }
 
-    /** @since version 2.2 */
+    /** @since version 2.2
+     * @param array $andFilters
+     * @return QueryBuilderFactory
+     */
     public function setAndFilters(array $andFilters = [])
     {
         $this->andFilters = $andFilters;
@@ -195,6 +198,7 @@ class QueryBuilderFactory extends AbstractQuery
 
         if ($this->orFilters) {
             $orFilterFactory = new OrFilter($this->entityAlias, $this->fields, $this->joinFactory);
+
             $orFilterFactory->createFilter($this->orFilters);
 
             $conditions = $orFilterFactory->getConditions();
@@ -202,7 +206,7 @@ class QueryBuilderFactory extends AbstractQuery
             $leftJoins = $orFilterFactory->getLeftJoin();
 
             if ($conditions !== '') {
-                $this->qBuilder->andWhere($conditions);
+                $this->qBuilder->andWhere(implode('OR ', $conditions));
 
                 foreach ($parameters as $parameter) {
                     $this->qBuilder->setParameter($parameter['field'], $parameter['value']);

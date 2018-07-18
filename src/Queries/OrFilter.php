@@ -22,23 +22,24 @@ class OrFilter
 
     private $relationEntityAlias;
 
-    public function __construct(string $entityAlias, array $fields, Join $join)
+
+    public function __construct($entityAlias, array $fields, Join $join)
     {
         $this->entityAlias = $entityAlias;
         $this->fields = $fields;
         $this->join = $join;
 
-        $this->conditions = '';
+        $this->conditions = [];
         $this->parameters = [];
         $this->parser  = new StringParser();
     }
 
     public function createFilter(array $orFilters)
     {
-        foreach ($orFilters as $filter => $value) {
+        foreach ($orFilters as $filter) {
             $this->applyFilter(
                 Objects\FilterObject::fromRawFilter($filter),
-                $value
+                $filter['data']['value']
             );
         }
     }
@@ -48,8 +49,7 @@ class OrFilter
         $whereCondition = $this->entityAlias . '.' . $filterObject->getFieldName() . ' '
             . $filterObject->getOperatorMeta();
 
-        // controllo se il filtro che mi arriva dalla richiesta è una proprietà di questa entità
-        // esempio per users: filtering[username|contains]=mado
+        //смотрим в доступных полях наше поле
         if (in_array($filterObject->getFieldName(), $this->fields)) {
             $salt = '_' . random_int(111, 999);
 
@@ -88,14 +88,17 @@ class OrFilter
                 ];
             }
         } else {
-            $isNotARelation = 0 !== strpos($filterObject->getFieldName(), 'Embedded.');
-            if ($isNotARelation) {
-                $whereCondition .= ' ' . $this->entityAlias . '.' . $value;
-                if ('' != $this->conditions) {
-                    $this->conditions .= ' OR ' . $whereCondition;
-                } else {
-                    $this->conditions = $whereCondition;
+            if (strpos($filterObject->getFieldName(), 'Embedded.') === false) {
+
+                if ( $filterObject->haveOperatorSubstitutionPattern()) {
+                    $value = str_replace(
+                        '{string}',
+                        $value,
+                        $filterObject->getOperatorsSubstitutionPattern()
+                    );
                 }
+                $whereCondition .= $value;
+                $this->conditions[] = $whereCondition;
             }
         }
 
@@ -148,7 +151,7 @@ class OrFilter
         }
     }
 
-    public function getConditions() :string
+    public function getConditions()
     {
         return $this->conditions;
     }

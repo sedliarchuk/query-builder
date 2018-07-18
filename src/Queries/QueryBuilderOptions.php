@@ -62,6 +62,7 @@ class QueryBuilderOptions
 
     public function validateOption($option, $defaultValue)
     {
+
         $optionIsDefinedNegativeAndNotNull = (
             !isset($this->options[$option])
             || $this->options[$option] < 0

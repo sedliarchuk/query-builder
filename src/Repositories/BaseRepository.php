@@ -115,30 +115,16 @@ class BaseRepository extends EntityRepository
 
         if ( ! is_array($sorting) and json_decode($sorting)) $sorting =  json_decode($sorting, true);
         if ( ! is_array($filters) and json_decode($filters)) $filters =  json_decode($filters, true);
-        if ( ! is_array($orFilters) and json_decode($filters)) $orFilters =  json_decode($orFilters, true);
+        if ( ! is_array($orFilters) and json_decode($orFilters)) $orFilters =  json_decode($orFilters, true);
         if ( ! is_array($filtering) and json_decode( $filtering)) $filtering =  json_decode($filtering, true);
-
-        $filterOrCorrected = [];
-
-        $count = 0;
-        foreach ($orFilters as $key => $filter) {
-            if (is_array($filter)) {
-                foreach ($filter as $keyInternal => $internal) {
-                    $filterOrCorrected[$keyInternal . '|' . $count] = $internal;
-                    $count += 1;
-                }
-            } else {
-                $filterOrCorrected[$key] = $filter;
-            }
-        }
 
         $requestProperties = [
             'filtering'   => $filtering,
-            'orFiltering' => $filterOrCorrected,
+            'orFiltering' => $orFilters,
             'limit'       => $limit,
             'page'        => $page,
             'filters'     => $filters,
-            'orFilters'   => $filterOrCorrected,
+            'orFilters'   => $orFilters,
             'sorting'     => $sorting,
             'rel'         => $rel,
             'printing'    => $printing,
@@ -182,7 +168,7 @@ class BaseRepository extends EntityRepository
 
         if ( ! is_array($sorting) and json_decode($sorting)) $sorting =  json_decode($sorting, true);
         if ( ! is_array($filters) and json_decode($filters)) $filters =  json_decode($filters, true);
-        if ( ! is_array($orFilters) and json_decode($filters)) $orFilters =  json_decode($orFilters, true);
+        if ( ! is_array($orFilters) and json_decode($orFilters)) $orFilters =  json_decode($orFilters, true);
         if ( ! is_array($filtering) and json_decode( $filtering)) $filtering =  json_decode($filtering, true);
 
         $this->ensureFilterIsValid($filters);
@@ -194,7 +180,7 @@ class BaseRepository extends EntityRepository
         foreach ($orFilters as $key => $filterValue) {
             if (is_array($filterValue)) {
                 foreach ($filterValue as $keyInternal => $internal) {
-                    $filterOrCorrected[$keyInternal . '|' . $count] = $internal;
+                    $filterOrCorrected[$keyInternal] = $internal;
                     $count += 1;
                 }
             } else {
@@ -234,7 +220,7 @@ class BaseRepository extends EntityRepository
 
         if ( ! is_array($sorting) and json_decode($sorting)) $sorting =  json_decode($sorting, true);
         if ( ! is_array($filters) and json_decode($filters)) $filters =  json_decode($filters, true);
-        if ( ! is_array($orFilters) and json_decode($filters)) $orFilters =  json_decode($orFilters, true);
+        if ( ! is_array($orFilters) and json_decode($orFilters)) $orFilters =  json_decode($orFilters, true);
         if ( ! is_array($filtering) and json_decode( $filtering)) $filtering =  json_decode($filtering, true);
 
         $orFilters = array_merge($orFilters, $orFilter);
@@ -245,7 +231,7 @@ class BaseRepository extends EntityRepository
         foreach ($orFilters as $key => $filter) {
             if (is_array($filter)) {
                 foreach ($filter as $keyInternal => $internal) {
-                    $filterOrCorrected[$keyInternal . '|' . $count] = $internal;
+                    $filterOrCorrected[$keyInternal] = $internal;
                     $count += 1;
                 }
             } else {
