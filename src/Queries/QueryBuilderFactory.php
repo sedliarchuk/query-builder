@@ -29,6 +29,8 @@ class QueryBuilderFactory extends AbstractQuery
 
     protected $orFilters;
 
+    protected $hiddenFilters;
+
     protected $sorting;
 
     private $joins = [];
@@ -85,6 +87,13 @@ class QueryBuilderFactory extends AbstractQuery
     public function setOrFilters(array $orFilters = [])
     {
         $this->orFilters = $orFilters;
+
+        return $this;
+    }
+
+    public function setHiddenFilters(array $hiddenFilters = [])
+    {
+        $this->hiddenFilters = $hiddenFilters;
 
         return $this;
     }
@@ -155,6 +164,7 @@ class QueryBuilderFactory extends AbstractQuery
     }
 
     /**
+     * Формеруем из запросов запрос
      * @return $this
      * @throws Exceptions\MissingFieldsException
      * @throws Exceptions\MissingFiltersException
@@ -221,6 +231,36 @@ class QueryBuilderFactory extends AbstractQuery
                 }
             }
         }
+
+
+
+        if ($this->hiddenFilters) {
+
+            $orFilterFactory = new OrFilter($this->entityAlias, $this->fields, $this->joinFactory);
+
+            $orFilterFactory->createFilter($this->hiddenFilters);
+
+            $conditions = $orFilterFactory->getConditions();
+            $parameters = $orFilterFactory->getParameters();
+            $leftJoins = $orFilterFactory->getLeftJoin();
+
+            if ($conditions !== '') {
+
+                $this->qBuilder->andWhere(implode(' OR ', $conditions));
+
+                foreach ($parameters as $parameter) {
+                    $this->qBuilder->setParameter($parameter['field'], $parameter['value']);
+                }
+
+                foreach ($leftJoins as $join) {
+                    if (!$this->joinAlreadyDone($join)) {
+                        $this->storeJoin($join);
+                        $this->qBuilder->leftJoin($join['field'], $join['relation']);
+                    }
+                }
+            }
+        }
+
 
         return $this;
     }

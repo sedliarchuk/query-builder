@@ -40,6 +40,11 @@ class QueryBuilderOptions
         return $this->get('orFilters', []);
     }
 
+    public function getHiddenFilters()
+    {
+        return $this->get('hiddenFiltering', []);
+    }
+
     public function getSorting()
     {
         return $this->get('sorting', []);
@@ -62,7 +67,6 @@ class QueryBuilderOptions
 
     public function validateOption($option, $defaultValue)
     {
-
         $optionIsDefinedNegativeAndNotNull = (
             !isset($this->options[$option])
             || $this->options[$option] < 0

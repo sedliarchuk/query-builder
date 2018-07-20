@@ -73,6 +73,11 @@ class BaseRepository extends EntityRepository
         $this->useResultCache = $bool;
     }
 
+    /**
+     * Принимаем фильтры через запрос
+     * @param Request $request
+     * @return BaseRepository
+     */
     public function setRequest(Request $request)
     {
         return $this->setQueryOptionsFromRequest($request);
@@ -93,9 +98,15 @@ class BaseRepository extends EntityRepository
         $this->queryOptions = $options;
     }
 
+    /**
+     * Разбираем фильтры из запроса
+     * @param Request|null $request
+     * @return $this
+     */
     public function setQueryOptionsFromRequest(Request $request = null)
     {
         $requestAttributes = [];
+
         foreach ($request->attributes->all() as $attributeName => $attributeValue) {
             $requestAttributes[$attributeName] = $request->attributes->get(
                 $attributeName,
@@ -103,32 +114,42 @@ class BaseRepository extends EntityRepository
             );
         }
 
+        //получаем фильтры
         $filters     = $request->query->get('filtering', []);
+        //получаем фильтры или
         $orFilters   = $request->query->get('filtering_or', []);
+        //получаем фильтры системные
+        $hiddenFilters   = $request->query->get('filtering_hidden', []);
+        //сортировка
         $sorting     = $request->query->get('sorting', []);
         $printing    = $request->query->get('printing', []);
         $rel         = $request->query->get('rel', '');
+        //пагинация
         $page        = $request->query->get('page', '');
+        //поля для вывода
         $select      = $request->query->get('select', $this->metadata->getEntityAlias());
         $filtering   = $request->query->get('filtering', []);
         $limit       = $request->query->get('limit', '');
 
-        if ( ! is_array($sorting) and json_decode($sorting)) $sorting =  json_decode($sorting, true);
-        if ( ! is_array($filters) and json_decode($filters)) $filters =  json_decode($filters, true);
-        if ( ! is_array($orFilters) and json_decode($orFilters)) $orFilters =  json_decode($orFilters, true);
-        if ( ! is_array($filtering) and json_decode( $filtering)) $filtering =  json_decode($filtering, true);
+        //если данные приходят в json то декодим
+        $sorting        =  $this->convertInArray($sorting);
+        $hiddenFilters  =  $this->convertInArray($hiddenFilters);
+        $filters        =  $this->convertInArray($filters);
+        $orFilters      =  $this->convertInArray($orFilters);
+        $filtering      =  $this->convertInArray($filtering);
 
         $requestProperties = [
-            'filtering'   => $filtering,
-            'orFiltering' => $orFilters,
-            'limit'       => $limit,
-            'page'        => $page,
-            'filters'     => $filters,
-            'orFilters'   => $orFilters,
-            'sorting'     => $sorting,
-            'rel'         => $rel,
-            'printing'    => $printing,
-            'select'      => $select,
+            'filtering'         => $filtering,
+            'orFiltering'       => $orFilters,
+            'hiddenFiltering'   => $hiddenFilters,
+            'limit'             => $limit,
+            'page'              => $page,
+            'filters'           => $filters,
+            'orFilters'         => $orFilters,
+            'sorting'           => $sorting,
+            'rel'               => $rel,
+            'printing'          => $printing,
+            'select'            => $select,
         ];
 
         $options = array_merge(
@@ -139,6 +160,12 @@ class BaseRepository extends EntityRepository
         $this->queryOptions = QueryBuilderOptions::fromArray($options);
 
         return $this;
+    }
+
+    private function convertInArray($data) {
+        if ( ! is_array($data) and json_decode($data)) $data =  json_decode($data, true);
+
+        return $data;
     }
 
     private function ensureFilterIsValid($filters)
@@ -269,6 +296,7 @@ class BaseRepository extends EntityRepository
     }
 
     /**
+     * Применяме все фильтры
      * @return \Hateoas\Representation\PaginatedRepresentation
      * @throws \Sedliarchuk\QueryBuilder\Component\Meta\Exceptions\UnInitializedQueryBuilderException
      * @throws \Sedliarchuk\QueryBuilder\Exceptions\MissingFieldsException
