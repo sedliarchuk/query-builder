@@ -31,6 +31,8 @@ class QueryBuilderFactory extends AbstractQuery
 
     protected $hiddenFilters;
 
+    protected $hiddenFiltersOr;
+
     protected $sorting;
 
     private $joins = [];
@@ -94,6 +96,13 @@ class QueryBuilderFactory extends AbstractQuery
     public function setHiddenFilters(array $hiddenFilters = [])
     {
         $this->hiddenFilters = $hiddenFilters;
+
+        return $this;
+    }
+
+    public function setHiddenFiltersOr(array $hiddenFiltersOr = [])
+    {
+        $this->hiddenFiltersOr = $hiddenFiltersOr;
 
         return $this;
     }
@@ -233,12 +242,11 @@ class QueryBuilderFactory extends AbstractQuery
         }
 
 
-
-        if ($this->hiddenFilters) {
+        if ($this->hiddenFiltersOr) {
 
             $orFilterFactory = new OrFilter($this->entityAlias, $this->fields, $this->joinFactory);
 
-            $orFilterFactory->createFilter($this->hiddenFilters);
+            $orFilterFactory->createFilter($this->hiddenFiltersOr);
 
             $conditions = $orFilterFactory->getConditions();
             $parameters = $orFilterFactory->getParameters();
@@ -257,6 +265,33 @@ class QueryBuilderFactory extends AbstractQuery
                         $this->storeJoin($join);
                         $this->qBuilder->leftJoin($join['field'], $join['relation']);
                     }
+                }
+            }
+        }
+
+
+
+        if ($this->hiddenFilters) {
+
+            $andFilterFactory = new AndFilter($this->entityAlias, $this->fields, $this->joinFactory);
+            $andFilterFactory->createFilter($this->hiddenFilters);
+
+            $conditions = $andFilterFactory->getConditions();
+            $parameters = $andFilterFactory->getParameters();
+            $innerJoins = $andFilterFactory->getInnerJoin();
+
+            foreach($conditions as $condition) {
+                $this->qBuilder->andWhere($condition);
+            }
+
+            foreach($parameters as $parameter) {
+                $this->qBuilder->setParameter($parameter['field'], $parameter['value']);
+            }
+
+            foreach ($innerJoins as $join) {
+                if (!$this->joinAlreadyDone($join)) {
+                    $this->storeJoin($join);
+                    $this->qBuilder->innerJoin($join['field'], $join['relation']);
                 }
             }
         }

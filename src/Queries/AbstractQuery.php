@@ -72,6 +72,7 @@ abstract class AbstractQuery
         $this->setAndFilters($options->getAndFilters());
         $this->setOrFilters($options->getOrFilters());
         $this->setHiddenFilters($options->getHiddenFilters());
+        $this->setHiddenFiltersOr($options->getHiddenFiltersOr());
         $this->setSorting($options->getSorting());
         $this->setRel([$options->getRel()]);
         $this->setPrinting($options->getPrinting());
@@ -82,6 +83,7 @@ abstract class AbstractQuery
     abstract public function setAndFilters(array $andFilters = []);
     abstract public function setOrFilters(array $orFilters = []);
     abstract public function setHiddenFilters(array $hiddenFilters = []);
+    abstract public function setHiddenFiltersOr(array $hiddenFiltersOr = []);
     abstract public function setSorting(array $sorting = []);
     abstract public function setRel(array $rel);
     abstract public function setPrinting($printing);

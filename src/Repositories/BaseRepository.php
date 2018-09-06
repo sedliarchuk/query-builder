@@ -120,6 +120,7 @@ class BaseRepository extends EntityRepository
         $orFilters   = $request->query->get('filtering_or', []);
         //получаем фильтры системные
         $hiddenFilters   = $request->query->get('filtering_hidden', []);
+        $hiddenFiltersOr = $request->query->get('filtering_hidden_or', []);
         //сортировка
         $sorting     = $request->query->get('sorting', []);
         $printing    = $request->query->get('printing', []);
@@ -134,6 +135,7 @@ class BaseRepository extends EntityRepository
         //если данные приходят в json то декодим
         $sorting        =  $this->convertInArray($sorting);
         $hiddenFilters  =  $this->convertInArray($hiddenFilters);
+        $hiddenFiltersOr  =  $this->convertInArray($hiddenFiltersOr);
         $filters        =  $this->convertInArray($filters);
         $orFilters      =  $this->convertInArray($orFilters);
         $filtering      =  $this->convertInArray($filtering);
@@ -142,6 +144,7 @@ class BaseRepository extends EntityRepository
             'filtering'         => $filtering,
             'orFiltering'       => $orFilters,
             'hiddenFiltering'   => $hiddenFilters,
+            'hiddenFilteringOr'   => $hiddenFiltersOr,
             'limit'             => $limit,
             'page'              => $page,
             'filters'           => $filters,

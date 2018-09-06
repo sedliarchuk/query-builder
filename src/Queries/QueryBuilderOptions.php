@@ -45,6 +45,11 @@ class QueryBuilderOptions
         return $this->get('hiddenFiltering', []);
     }
 
+    public function getHiddenFiltersOr()
+    {
+        return $this->get('hiddenFilteringOr', []);
+    }
+
     public function getSorting()
     {
         return $this->get('sorting', []);
