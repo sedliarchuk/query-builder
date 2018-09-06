@@ -168,6 +168,8 @@ class BaseRepository extends EntityRepository
     private function convertInArray($data) {
         if ( ! is_array($data) and json_decode($data)) $data =  json_decode($data, true);
 
+        if (! is_array($data)) return [];
+
         return $data;
     }
 
