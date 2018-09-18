@@ -1,6 +1,7 @@
 <?php
 namespace Sedliarchuk\QueryBuilder\Filters;
 
+use Doctrine\ORM\Mapping\MappingException;
 use Sedliarchuk\QueryBuilder\Repositories\BaseRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -36,7 +37,12 @@ class FilterAbstract implements FilterInterface
 
     function isJoinField($field) {
         $metadata = $this->repository->getMetadata()->getMetadata();
-        if ( ! @$metadata->getAssociationMapping($field) or !isset($metadata->associationMappings[$field]['joinTable'])) {
+        try {
+            $fieldJoin = $metadata->getAssociationMapping($field);
+        } catch (MappingException $e) {
+            $fieldJoin = false;
+        }
+        if ( ! $fieldJoin or !isset($metadata->associationMappings[$field]['joinTable'])) {
             return false;
         }
         return true;

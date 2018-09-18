@@ -25,6 +25,7 @@ class FilterStartSwith extends FilterAbstract
         if ( ! $this->issetField($field) or $this->isJoinField($field)) {
             return false;
         }
+
         $field = $this->getQBAlias($qb) .'.'.$this->getField();
         $parameterName = $this->getField().$this->getIntParameter();
         $qb->setParameter($parameterName, $this->getValue().'%');
