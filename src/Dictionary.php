@@ -4,65 +4,82 @@ namespace Sedliarchuk\QueryBuilder;
 
 class Dictionary
 {
-    const DEFAULT_OPERATOR = 'eq';
+    const DEFAULT_OPERATOR = self::OPERATOR_EQ;
+    const OPERATOR_EQ = 'eq';
+    const OPERATOR_NEQ = 'neq';
+    const OPERATOR_GT = 'gt';
+    const OPERATOR_GTE = 'gte';
+    const OPERATOR_LT = 'lt';
+    const OPERATOR_LTE = 'lte';
+    const OPERATOR_STARTSWITH = 'startswith';
+    const OPERATOR_CONTAINS = 'contains';
+    const OPERATOR_NOTCONSAINS = 'notcontains';
+    const OPERATOR_ENDSWITH = 'endswith';
+    const OPERATOR_LIST = 'list';
+    const OPERATOR_NLIST = 'nlist';
+    const OPERATOR_FIELD_EQ = 'field_eq';
+    const OPERATOR_ISNULL = 'isnull';
+    const OPERATOR_ISNOTNULL = 'isnotnull';
+    const OPERATOR_LISTCONTAINS = 'listcontains';
+    const OPERATOR_BETWEEN = 'between';
 
     private static $operatorMap = [
-        'eq' => [
+        self::OPERATOR_EQ => [
             'meta' => '=',
         ],
-        'neq' => [
+        self::OPERATOR_NEQ => [
             'meta' => '!=',
         ],
-        'gt' => [
+        self::OPERATOR_GT => [
             'meta' => '>',
         ],
-        'gte' => [
+        self::OPERATOR_GTE => [
             'meta' => '>=',
         ],
-        'lt' => [
+        self::OPERATOR_LT => [
             'meta' => '<',
         ],
-        'lte' => [
+        self::OPERATOR_LTE => [
             'meta' => '<=',
         ],
-        'startswith' => [
+        self::OPERATOR_STARTSWITH => [
             'meta' => 'LIKE',
             'substitution_pattern' => '{string}%'
         ],
-        'contains' => [
+        self::OPERATOR_CONTAINS => [
             'meta' => 'LIKE',
             'substitution_pattern' => '%{string}%'
         ],
-        'notcontains' => [
+        self::OPERATOR_NOTCONSAINS => [
             'meta' => 'NOT LIKE',
             'substitution_pattern' => '%{string}%'
         ],
-        'endswith' => [
+        self::OPERATOR_ENDSWITH => [
             'meta' => 'LIKE',
             'substitution_pattern' => '%{string}'
         ],
-        'list' => [
+        self::OPERATOR_LIST => [
             'meta' => 'IN',
             'substitution_pattern' => '({string})',
         ],
-        'nlist' => [
+        self::OPERATOR_NLIST => [
             'meta' => 'NOT IN',
             'substitution_pattern' => '({string})',
         ],
-        'field_eq' => [
+        self::OPERATOR_FIELD_EQ => [
             'meta' => '=',
         ],
-        'isnull' => [
+        self::OPERATOR_ISNULL => [
             'meta' => 'IS NULL',
         ],
-        'isnotnull' => [
+        self::OPERATOR_ISNOTNULL => [
             'meta' => 'IS NOT NULL',
         ],
-        'listcontains' => [
+        self::OPERATOR_LISTCONTAINS => [
             'meta' => 'LIKE',
             'substitution_pattern' => '({string})',
         ],
-        'between' => [
+        self::OPERATOR_BETWEEN => [
             'meta' => 'BETWEEN'
         ],
     ];

@@ -209,6 +209,7 @@ class QueryBuilderFactory extends AbstractQuery
 
             foreach ($innerJoins as $join) {
                 if (!$this->joinAlreadyDone($join)) {
+                    dump($join, $this->andFilters, $conditions, \Doctrine\ORM\Query\Expr\Join::ON,$condition );
                     $this->storeJoin($join);
                     $this->qBuilder->innerJoin($join['field'], $join['relation']);
                 }
@@ -328,7 +329,7 @@ class QueryBuilderFactory extends AbstractQuery
                 $this->qBuilder->addOrderBy($this->entityAlias . '.' . $fieldName, $direction);
             }
 
-            if (strstr($sort, '_embedded.')) {
+            if (strstr($sort, 'Embedded.')) {
                 $this->join($sort);
                 $relationEntityAlias = $this->joinFactory->getRelationEntityAlias();
 

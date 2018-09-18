@@ -118,23 +118,16 @@ class AndFilter
         //если поле не найдено
         } else {
             if (strpos($filterObject->getFieldName(), 'Embedded.') === false) {
-
-                if ( $filterObject->haveOperatorSubstitutionPattern()) {
-                    $value = str_replace(
-                        '{string}',
-                        $value,
-                        $filterObject->getOperatorsSubstitutionPattern()
-                    );
-                }
-                $whereCondition .= $value;
+                $whereCondition .= ' ' . $this->entityAlias . '.' . $value;
                 $this->conditions[] = $whereCondition;
             }
         }
 
         // controllo se il filtro si riferisce ad una relazione dell'entità quindi devo fare dei join
         // esempio per users: filtering[_embedded.groups.name|eq]=admin
-        if (strstr($filterObject->getRawFilter(), '_embedded.')) {
-            $this->join->join($filterObject->getRawFilter());
+        if (strstr($filterObject->getFieldName(), 'Embedded.')) {
+
+            $this->join->join($filterObject);
             $this->relationEntityAlias = $this->join->getRelationEntityAlias();
 
             $embeddedFields = explode('.', $filterObject->getFieldName());

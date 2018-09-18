@@ -33,7 +33,7 @@ final class DijkstraWalker implements
         $shortestPath = $this->dijkstra->shortestPaths($start, $end);
         $prevRelations = $this->map[$start]['relations'];
 
-        $this->path = '_embedded';
+        $this->path = 'Embedded';
 
         foreach ($shortestPath[0] as $meta) {
             if ($relationName = array_search($meta, $prevRelations)) {

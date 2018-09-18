@@ -5,6 +5,7 @@ namespace Sedliarchuk\QueryBuilder\Services;
 use Sedliarchuk\QueryBuilder\Objects\PagerfantaBuilder;
 use Sedliarchuk\QueryBuilder\Queries\QueryBuilderOptions;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Symfony\Component\HttpFoundation\Request;
 
 class Pager
 {
@@ -14,6 +15,7 @@ class Pager
 
     private const DEFAULT_LIFETIME = 600;
 
+    /** @var Router */
     private $router;
 
     public function __construct()
@@ -27,21 +29,21 @@ class Pager
     }
 
     public function paginateResults (
-        QueryBuilderOptions $queryOptions,
+        Request $request,
         DoctrineORMAdapter $ormAdapter,
         PagerfantaBuilder $pagerfantaBuilder,
         $routeName,
         $useResultCache
     ) {
-        $limit = $queryOptions->get('limit', self::DEFAULT_LIMIT);
-        $page = $queryOptions->get('page', self::DEFAULT_PAGE);
+        $limit = $request->query->get('limit', self::DEFAULT_LIMIT);
+        $page = $request->query->get('page', self::DEFAULT_PAGE);
 
         $query = $ormAdapter->getQuery();
         if (isset($useResultCache) && $useResultCache) {
             $query->useResultCache(true, self::DEFAULT_LIFETIME);
         }
 
-        $route = $this->router->createRouter($queryOptions, $routeName);
+        $route = $this->router->createRouter($request, $routeName);
 
         return $pagerfantaBuilder->createRepresentation($route, $limit, $page);
     }

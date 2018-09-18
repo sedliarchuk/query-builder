@@ -3,6 +3,7 @@
 namespace Sedliarchuk\QueryBuilder\Queries;
 
 use Doctrine\ORM\EntityManager;
+use Sedliarchuk\QueryBuilder\Queries\Objects\FilterObject;
 use Sedliarchuk\QueryBuilder\Services\StringParser;
 
 class Join
@@ -41,12 +42,12 @@ class Join
      * @param String $relation Nome della relazione semplice (groups.name) o con embedded (_embedded.groups.name)
      * @return $this
      */
-    public function join(String $relation, $logicOperator = self::AND_OPERATOR_LOGIC)
+    public function join(FilterObject $filterObject, $logicOperator = self::AND_OPERATOR_LOGIC)
     {
-        $relation = explode('|', $relation)[0];
+        $relation = $filterObject->getFieldName();
         $relations = [$relation];
 
-        if (strstr($relation, '_embedded.')) {
+        if (strstr($relation, 'Embedded.')) {
             $embeddedFields = explode('.', $relation);
             $this->parser->camelize($embeddedFields[1]);
 

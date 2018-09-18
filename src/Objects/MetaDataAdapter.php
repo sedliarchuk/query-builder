@@ -2,6 +2,8 @@
 
 namespace Sedliarchuk\QueryBuilder\Objects;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
+
 class MetaDataAdapter
 {
     private $metadata;
@@ -30,5 +32,13 @@ class MetaDataAdapter
         $entityName = $entityName[count($entityName) - 1][0];
 
         return $entityName[0];
+    }
+
+    /**
+     * @return ClassMetadata
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
     }
 }

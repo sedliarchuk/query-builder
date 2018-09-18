@@ -104,7 +104,7 @@ class OrFilter
 
         // controllo se il filtro si riferisce ad una relazione dell'entità quindi devo fare dei join
         // esempio per users: filtering[_embedded.groups.name|eq]=admin
-        if (strstr($filterObject->getRawFilter(), '_embedded.')) {
+        if (strstr($filterObject->getRawFilter(), 'Embedded.')) {
             $this->join->join($filterObject->getRawFilter(), self::OR_OPERATOR_LOGIC);
             $this->relationEntityAlias = $this->join->getRelationEntityAlias();
 
