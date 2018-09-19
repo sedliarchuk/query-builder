@@ -18,7 +18,7 @@ class BaseRepository extends EntityRepository
 {
     protected $request;
 
-    protected $useResultCache = true;
+    protected $useResultCache = false;
 
     /** @var FilterTypeManager */
     protected $filterTypeManager;
@@ -100,6 +100,10 @@ class BaseRepository extends EntityRepository
         return $this;
     }
 
+    /**
+     * @param QueryBuilder $qb
+     * @return QueryBuilder
+     */
     function buildQuery(QueryBuilder $qb) {
         $this->getFilterTypeManager()->buildQuery($qb);
         return $qb;
