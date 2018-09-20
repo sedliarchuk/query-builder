@@ -3,7 +3,6 @@
 namespace Sedliarchuk\QueryBuilder\Services;
 
 use Sedliarchuk\QueryBuilder\Objects\PagerfantaBuilder;
-use Sedliarchuk\QueryBuilder\Queries\QueryBuilderOptions;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Symfony\Component\HttpFoundation\Request;
 

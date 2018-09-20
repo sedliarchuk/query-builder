@@ -1,5 +1,0 @@
-services:
-    sedliarchuk.query_builder_factory:
-        class: Sedliarchuk\QueryBuilder\Queries\QueryBuilderFactory
-        arguments:
-            - "@doctrine.orm.entity_manager"

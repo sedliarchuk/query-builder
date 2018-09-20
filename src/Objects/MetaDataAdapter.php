@@ -3,14 +3,16 @@
 namespace Sedliarchuk\QueryBuilder\Objects;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\MappingException;
 
 class MetaDataAdapter
 {
+    /** @var ClassMetadata */
     private $metadata;
 
     private $entityName;
 
-    public function setClassMetadata($metadata)
+    public function setClassMetadata(ClassMetadata $metadata)
     {
         $this->metadata = $metadata;
     }
@@ -32,6 +34,28 @@ class MetaDataAdapter
         $entityName = $entityName[count($entityName) - 1][0];
 
         return $entityName[0];
+    }
+
+    function issetField($field) {
+        $metadata = $this->metadata;
+
+        if ( ! @$metadata->getReflectionProperty($field)) {
+            return false;
+        }
+        return true;
+    }
+
+    function isJoinField($field) {
+        $metadata = $this->metadata;
+        try {
+            $fieldJoin = $metadata->getAssociationMapping($field);
+        } catch (MappingException $e) {
+            $fieldJoin = false;
+        }
+        if ( ! $fieldJoin or !isset($metadata->associationMappings[$field]['joinTable'])) {
+            return false;
+        }
+        return true;
     }
 
     /**

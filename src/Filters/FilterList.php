@@ -15,20 +15,16 @@ use Doctrine\ORM\QueryBuilder;
 class FilterList extends FilterAbstract
 {
     const FILTER_ALIAS = 'list';
-    
 
-
-
-    public function checkField() {
-
-    }
-
-    function joinTable(QueryBuilder $qb, BaseRepository $repository) {
-
-    }
-
+    /**
+     * Строим связь с внешними таблицами
+     * @param QueryBuilder $qb
+     * @return \Doctrine\ORM\Query\Expr\Func
+     */
     function buildQueryJoin(QueryBuilder $qb) {
+        //имя поля
         $field = $this->getQBAlias($qb) .'.'.$this->getField();
+        //создаем линк на таблицу
         $tableAlias = mb_strcut($field, 0, 1).$this->getIntParameter();
         $qb->innerJoin($field, $tableAlias);
 

@@ -86,8 +86,10 @@ class FilterTypeManager
      * @return QueryBuilder
      */
     function buildQuery(QueryBuilder $qb) {
+        //перебираем типы фильтрова
         foreach ($this->getFiltersStorage() as $filterType) {
-            $filterType->buildQuery($qb, $this->getRepository());
+            //строим запрос
+            $filterType->buildQuery($qb);
         }
         return $qb;
     }

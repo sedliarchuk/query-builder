@@ -7,11 +7,9 @@ use Doctrine\ORM\QueryBuilder;
 use Hateoas\Representation\Factory\PagerfantaFactory;
 use Sedliarchuk\QueryBuilder\Filters\Type\FilterTypeManager;
 use Sedliarchuk\QueryBuilder\Objects\MetaDataAdapter;
-use Sedliarchuk\QueryBuilder\Objects\PagerfantaBuilder;
-use Sedliarchuk\QueryBuilder\Queries\QueryBuilderFactory;
-use Sedliarchuk\QueryBuilder\Queries\QueryBuilderOptions;
-use Sedliarchuk\QueryBuilder\Services\Pager;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Sedliarchuk\QueryBuilder\Objects\PagerfantaBuilder;
+use Sedliarchuk\QueryBuilder\Services\Pager;
 use Symfony\Component\HttpFoundation\Request;
 
 class BaseRepository extends EntityRepository
@@ -27,13 +25,6 @@ class BaseRepository extends EntityRepository
 
     protected $currentEntityAlias;
 
-    protected $embeddedFields;
-
-    protected $joins = [];
-
-    /** @var QueryBuilderFactory  */
-    protected $queryBuilderFactory;
-
     protected $queryOptions = [];
 
     protected $metadata;
@@ -47,30 +38,8 @@ class BaseRepository extends EntityRepository
         $this->metadata->setClassMetadata($this->getClassMetadata());
         $this->metadata->setEntityName($this->getEntityName());
 
-        //собираем запрос к базе данных передаем менеджер
-        $this->queryBuilderFactory = new QueryBuilderFactory($this->getEntityManager());
     }
 
-    
-    public function initFromQueryBuilderOptions(QueryBuilderOptions $options)
-    {
-        $this->queryBuilderFactory->createQueryBuilder(
-            $this->getEntityName(),
-            $this->metadata->getEntityAlias()
-        );
-
-        $this->queryBuilderFactory->loadMetadataAndOptions(
-            $this->metadata,
-            $options
-        );
-    }
-
-    public function getQueryBuilderFactory()
-    {
-        $this->initFromQueryBuilderOptions($this->queryOptions);
-
-        return $this->queryBuilderFactory;
-    }
 
     public function useResultCache($bool)
     {
@@ -84,6 +53,7 @@ class BaseRepository extends EntityRepository
      */
     public function setRequest(Request $request)
     {
+        //извлекае все аттрибуты для пагинации
         foreach ($request->attributes->all() as $attributeName => $attributeValue) {
             $requestAttributes[$attributeName] = $request->attributes->get(
                 $attributeName,
@@ -91,30 +61,33 @@ class BaseRepository extends EntityRepository
             );
         }
 
+        //сохраняем запрос
         $this->request = $request;
+        //сохраняем роут
         $this->setRouteName($request->attributes->get('_route'));
+        //запускаем менеджера типы фильтров
         $filterTypeManager = new FilterTypeManager();
+        //задаем репозиторий
         $filterTypeManager->setRepository($this);
+        //менеджер типов сохраняем в переменную
         $this->setFilterTypeManager($filterTypeManager);
+        //обрабатываем запрос
         $this->getFilterTypeManager()->handleRequest($request);
+        //возвращаем репозиторий
         return $this;
     }
 
     /**
+     * строим запрос к базе данных
      * @param QueryBuilder $qb
      * @return QueryBuilder
      */
     function buildQuery(QueryBuilder $qb) {
+        //запускаем строительство в типах фильтров
         $this->getFilterTypeManager()->buildQuery($qb);
         return $qb;
     }
 
-
-
-    public function setQueryOptions(QueryBuilderOptions $options)
-    {
-        $this->queryOptions = $options;
-    }
 
     /**
      * @return MetaDataAdapter
@@ -187,16 +160,6 @@ class BaseRepository extends EntityRepository
         $this->currentEntityAlias = $currentEntityAlias;
     }
 
-    protected function getEmbeddedFields()
-    {
-        return $this->embeddedFields;
-    }
-
-    protected function setEmbeddedFields(array $embeddedFields)
-    {
-        $this->embeddedFields = $embeddedFields;
-    }
-
     public function getEntityAlias()
     {
         return $this->metadata->getEntityAlias();
@@ -205,10 +168,5 @@ class BaseRepository extends EntityRepository
     protected function relationship($queryBuilder)
     {
         return $queryBuilder;
-    }
-
-    public function getQueryBuilderFactoryWithoutInitialization()
-    {
-        return $this->queryBuilderFactory;
     }
 }

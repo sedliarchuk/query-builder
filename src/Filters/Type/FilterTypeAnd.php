@@ -54,20 +54,34 @@ class FilterTypeAnd extends FilterTypeAbstract
         $this->filterManager = $filterManager;
     }
 
+    /**
+     * @param QueryBuilder $qb
+     * @return QueryBuilder
+     */
     function buildQuery(QueryBuilder $qb)
     {
+        //если нет фильтров в данном типе пропускаем
         if ( ! $this->getFilterManager()->getRequestFilters()) return $qb;
+        //метка на проверку есть ли фитльтры для обработки
         $isAdd = false;
 
+        //создаем пул запросов с условиями типа
         $qbAnd = $qb->expr()->andX();
+        //извлекаем фильтра
         foreach ($this->getFilterManager()->getRequestFilters() as $filter) {
+            //если по каким то причинам фильтр не собрал запрос пропускаем
             if ( ! $query = $filter->buildQuery($qb, $this->getFilterTypeManager()->getRepository())) continue;
+            //ставим метку что есть запрос
             $isAdd = true;
+            //добавляем запрос
             $qbAnd->add($query);
+            //обнуляем запрос
             $query = null;
         }
 
+        //если есть фильтры для запроса то записываем в общий запрос
         if ($isAdd) $qb->andWhere($qbAnd);
+        //возвращаем билдер для дальнейшей работы
         return $qb;
 
     }
