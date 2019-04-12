@@ -40,7 +40,7 @@ class FilterList extends FilterAbstract
             );
         } else {
             return $qb->expr()->in(
-                $tableAlias.'.'.(explode('.', $this->getField()))[1], ':'.$parameterName
+                $tableAlias.'.'.(explode('.', $this->getField()))[1]. ':'.$parameterName
             );
         }
     }
