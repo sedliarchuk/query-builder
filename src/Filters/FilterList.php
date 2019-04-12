@@ -31,7 +31,7 @@ class FilterList extends FilterAbstract
         $qb->innerJoin($field, $tableAlias);
 
         $value = explode(',', $this->getValue());
-        $parameterName = $this->getField().$this->getIntParameter();
+        $parameterName = $fieldName.$this->getIntParameter();
         $qb->setParameter($parameterName, $value);
 
         if (!isset((explode('.', $this->getField()))[1])) {
@@ -40,7 +40,7 @@ class FilterList extends FilterAbstract
             );
         } else {
             return $qb->expr()->in(
-                $tableAlias.'.'.(explode('.', $this->getField()))[1]. ':'.$parameterName
+                $tableAlias.'.'.(explode('.', $this->getField()))[1], ':'.$parameterName
             );
         }
     }
