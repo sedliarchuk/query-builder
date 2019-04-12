@@ -35,14 +35,22 @@ class FilterAbstract implements FilterInterface
         return true;
     }
 
+    /**
+     * Проверка на внешние таблицы
+     * @param $field
+     * @return bool
+     */
     function isJoinField($field) {
         $metadata = $this->repository->getMetadata()->getMetadata();
         try {
             $fieldJoin = $metadata->getAssociationMapping($field);
+
         } catch (MappingException $e) {
             $fieldJoin = false;
         }
-        if ( ! $fieldJoin or !isset($metadata->associationMappings[$field]['joinTable'])) {
+
+        if ( ! $fieldJoin or (!isset($metadata->associationMappings[$field]['joinTable']) and
+                is_null($metadata->associationMappings[$field]['mappedBy']))) {
             return false;
         }
         return true;
