@@ -31,12 +31,19 @@ abstract class FilterTypeAbstract
 
     /**
      * Разбираем запрос на объекты
-     * @param Request $request
+     * @param Request|array $request
      * @return FilterTypeAbstract
      */
-    function handleRequest(Request $request) {
-        $this->setRequest($request);
-        $data = $request->query->get(static::getAlias());
+    function handleRequest($request) {
+//        dump($request);
+        $data = [];
+        if ($request instanceof Request) {
+            $this->setRequest($request);
+            $data = $request->query->get(static::getAlias());
+        } elseif (isset($request[static::getAlias()])) {
+            $data = $request[static::getAlias()];
+        }
+
         $this->requestData = $this->convertInArray($data);
     }
 

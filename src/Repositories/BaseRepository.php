@@ -48,32 +48,29 @@ class BaseRepository extends EntityRepository
 
     /**
      * Принимаем фильтры через запрос
-     * @param Request $request
+     * @param Request|array $request
      * @return BaseRepository
      */
-    public function setRequest(Request $request)
+    public function setRequest( $request)
     {
-        //извлекае все аттрибуты для пагинации
-        foreach ($request->attributes->all() as $attributeName => $attributeValue) {
-            $requestAttributes[$attributeName] = $request->attributes->get(
-                $attributeName,
-                $attributeValue
-            );
+        if (!is_array($request) && !$request instanceof Request) {
+            throw new \InvalidArgumentException('$request must be a array or a Request object.');
         }
-
-        //сохраняем запрос
-        $this->request = $request;
-        //сохраняем роут
-        $this->setRouteName($request->attributes->get('_route'));
         //запускаем менеджера типы фильтров
         $filterTypeManager = new FilterTypeManager();
         //задаем репозиторий
         $filterTypeManager->setRepository($this);
         //менеджер типов сохраняем в переменную
         $this->setFilterTypeManager($filterTypeManager);
+        //возвращаем репозиторий
+        if ($request instanceof Request) {
+            //сохраняем запрос
+            $this->request = $request;
+            //сохраняем роут
+            $this->setRouteName($request->attributes->get('_route'));
+        }
         //обрабатываем запрос
         $this->getFilterTypeManager()->handleRequest($request);
-        //возвращаем репозиторий
         return $this;
     }
 

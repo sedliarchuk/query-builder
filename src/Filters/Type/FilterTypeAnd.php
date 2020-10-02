@@ -26,7 +26,7 @@ class FilterTypeAnd extends FilterTypeAbstract
         $this->filterManager = new FiltersManager();
     }
 
-    function handleRequest(Request $request)
+    function handleRequest($request)
     {
         parent::handleRequest($request);
         $this->handleFilters();

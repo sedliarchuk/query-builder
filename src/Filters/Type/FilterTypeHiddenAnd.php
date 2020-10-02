@@ -30,7 +30,7 @@ class FilterTypeHiddenAnd extends FilterTypeAbstract
      * @param Request $request
      * @return FilterTypeAbstract
      */
-    function handleRequest(Request $request)
+    function handleRequest($request)
     {
         parent::handleRequest($request);
         $this->handleFilters();

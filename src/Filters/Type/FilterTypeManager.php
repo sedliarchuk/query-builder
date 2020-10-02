@@ -44,9 +44,18 @@ class FilterTypeManager
     }
 
     /**
-     * @param Request $request
+     * @param $request
      */
-    public function handleRequest(Request $request) {
+    public function handleRequest($request) {
+        foreach ($this->getFiltersStorage() as $item) {
+            $item->handleRequest($request);
+        }
+    }
+
+    /**
+     * @param $request
+     */
+    public function handleRequestArray($request) {
         foreach ($this->getFiltersStorage() as $item) {
             $item->handleRequest($request);
         }

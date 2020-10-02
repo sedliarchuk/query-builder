@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sedliarchuk
- * Date: 12.09.2018
- * Time: 14:21
- */
 
 namespace Sedliarchuk\QueryBuilder\Filters\Type;
 
@@ -27,7 +21,7 @@ class FilterTypeOr extends FilterTypeAbstract
         $this->filterManager = new FiltersManager();
     }
 
-    function handleRequest(Request $request)
+    function handleRequest($request)
     {
         parent::handleRequest($request);
         $this->handleFilters();
