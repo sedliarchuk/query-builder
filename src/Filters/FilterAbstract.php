@@ -81,7 +81,7 @@ class FilterAbstract implements FilterInterface
     }
 
     function getQBAlias(QueryBuilder $qb) {
-       return current($qb->getDQLPart('from'))->getAlias();
+        return current($qb->getDQLPart('from'))->getAlias();
     }
 
 
@@ -102,7 +102,7 @@ class FilterAbstract implements FilterInterface
         $this->field = $field;
         return $this;
     }
-    
+
 
     public function getIntParameter() {
         self::$parameterInt++;
@@ -122,6 +122,11 @@ class FilterAbstract implements FilterInterface
      */
     public function setValue($value): FilterAbstract
     {
+        //работаем с датой
+        if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}|today|yesterday|[0-9]+((day|week|year|month)Ago)/', $value))
+        {
+            $value = $this->convertDateValue($value);
+        }
         $this->value = $value;
         return $this;
     }
@@ -146,5 +151,18 @@ class FilterAbstract implements FilterInterface
     public function setRepository($repository): void
     {
         $this->repository = $repository;
+    }
+
+    private function convertDateValue($value)
+    {
+        $date = new \DateTime();
+        if ($value == 'yesterday') {
+            $date->modify('-1 day');
+        } else if (preg_match('/([0-9])+(day|week|year|month)+(Ago)/', $value, $param)) {
+            $date->modify('-'.$param[1].' '.$param[2]);
+        } else if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $value, $param)) {
+            $date = new \DateTime($value);
+        }
+        return $date->format('Y-m-d 00:00:00');
     }
 }
