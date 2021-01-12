@@ -123,7 +123,7 @@ class FilterAbstract implements FilterInterface
     public function setValue($value): FilterAbstract
     {
         //работаем с датой
-        if (!is_array($value) and preg_match('/^([0-9]{4}-[0-9]{2}-[0-9]{2}|today|yesterday|[0-9]+((hour|day|week|year|month)Ago))$/', $value))
+        if (!is_array($value) and preg_match('/^([0-9]{4}-[0-9]{2}-[0-9]{2}|today|yesterday|[0-9]+((minute|hour|day|week|year|month)Ago))$/', $value))
         {
             $value = $this->convertDateValue($value);
         }
@@ -158,7 +158,7 @@ class FilterAbstract implements FilterInterface
         $date = new \DateTime();
         if ($value == 'yesterday') {
             $date->modify('-1 day');
-        } else if (preg_match('/([0-9])+(hour)+(Ago)/', $value, $param)) {
+        } else if (preg_match('/([0-9])+(hour|minute)+(Ago)/', $value, $param)) {
             $date->modify('-'.$param[1].' '.$param[2]);
             return $date->format('Y-m-d H:i:s');
         } else if (preg_match('/([0-9])+(day|week|year|month)+(Ago)/', $value, $param)) {
