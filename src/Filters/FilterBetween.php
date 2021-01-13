@@ -31,7 +31,11 @@ class FilterBetween extends FilterAbstract
         }
 
         $field = $this->getQBAlias($qb) .'.'.$this->getField();
-        $values = explode(',', $this->getValue());
+        if (is_array($this->getValue()) and count($this->getValue()) == 2) {
+            $values = $this->getValue();
+        } else {
+            $values = explode(',', $this->getValue());
+        }
         if (count($values) != 2) return false;
 
         $start = $this->getField().$this->getIntParameter();
