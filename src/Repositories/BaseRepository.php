@@ -54,7 +54,7 @@ class BaseRepository extends EntityRepository
     public function setRequest( $request)
     {
         if (!is_array($request) && !$request instanceof Request) {
-            throw new \InvalidArgumentException('$request must be a array or a Request object.');
+            throw new \InvalidArgumentException('$request must be a array or Request object.');
         }
         //запускаем менеджера типы фильтров
         $filterTypeManager = new FilterTypeManager();

@@ -66,7 +66,13 @@ class FiltersManager
         if ( ! isset($data['data']['type'])) return;
         if ( ! isset($this->filtersStorage[$data['data']['type']])) return;
 
-        $className = $this->filtersStorage[$data['data']['type']];
+        //если фильтр равен дате
+        if (preg_match(FilterAbstract::$datePattern, $data['data']['value']) and $data['data']['type'] = 'eq') {
+            $className = $this->filtersStorage[FilterBetween::FILTER_ALIAS];
+        } else {
+            $className = $this->filtersStorage[$data['data']['type']];
+        }
+
         /** @var FilterAbstract $filter */
         $filter = new $className();
         $filter

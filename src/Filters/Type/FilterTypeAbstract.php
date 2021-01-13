@@ -35,7 +35,6 @@ abstract class FilterTypeAbstract
      * @return FilterTypeAbstract
      */
     function handleRequest($request) {
-//        dump($request);
         $data = [];
         if ($request instanceof Request) {
             $this->setRequest($request);
