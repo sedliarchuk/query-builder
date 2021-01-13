@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sedliarchuk
- * Date: 12.09.2018
- * Time: 14:34
- */
-
 namespace Sedliarchuk\QueryBuilder\Filters\Type;
 
 
