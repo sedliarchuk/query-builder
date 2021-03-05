@@ -7,6 +7,7 @@
  */
 
 namespace Sedliarchuk\QueryBuilder\Filters;
+
 use Sedliarchuk\QueryBuilder\Filters\FilterAbstract;
 
 
@@ -51,7 +52,8 @@ class FiltersManager
         $this->filtersStorage[$key] = $filter;
     }
 
-    private function init() {
+    private function init()
+    {
         $this->loadClasses();
     }
 
@@ -59,15 +61,16 @@ class FiltersManager
      * из массива в объект
      * @param array $data
      */
-    public function handleFilter(array $data) {
-        if ( ! isset($data['field'])) return;
-        if ( ! isset($data['data'])) return;
-        if ( ! isset($data['data']['value'])) return;
-        if ( ! isset($data['data']['type'])) return;
-        if ( ! isset($this->filtersStorage[$data['data']['type']])) return;
+    public function handleFilter(array $data)
+    {
+        if (!isset($data['field'])) return;
+        if (!isset($data['data'])) return;
+        if (!isset($data['data']['value'])) return;
+        if (!isset($data['data']['type'])) return;
+        if (!isset($this->filtersStorage[$data['data']['type']])) return;
 
         //если фильтр равен дате
-        if (preg_match(FilterAbstract::$datePattern, $data['data']['value']) and $data['data']['type'] == 'eq') {
+        if (is_string($data['data']['value']) && preg_match(FilterAbstract::$datePattern, $data['data']['value']) && $data['data']['type'] == 'eq') {
             $className = $this->filtersStorage[FilterBetween::FILTER_ALIAS];
         } else {
             $className = $this->filtersStorage[$data['data']['type']];
@@ -77,22 +80,22 @@ class FiltersManager
         $filter = new $className();
         $filter
             ->setField($data['field'])
-            ->setValue($data['data']['value'])
-        ;
+            ->setValue($data['data']['value']);
         $this->addRequestFilter($filter);
     }
 
 
-    private function loadClasses() {
+    private function loadClasses()
+    {
         $dirContains = scandir(dirname(__FILE__));
 
         foreach ($dirContains as $val) {
             if (!preg_match('~^Filter((?!Abstract|Manager|Interface)[\s\S])*$~', $val)) continue;
 
-            $className = __NAMESPACE__.'\\'.str_replace('.php', '', $val);
+            $className = __NAMESPACE__ . '\\' . str_replace('.php', '', $val);
             /** @var FilterAbstract $obj */
             $obj = new $className();
-            if ( ! ($obj instanceof FilterAbstract)) continue;
+            if (!($obj instanceof FilterAbstract)) continue;
             $this->addFilter($obj::getAlias(), $className);
         }
     }
