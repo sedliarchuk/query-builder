@@ -3,6 +3,7 @@
 namespace Sedliarchuk\QueryBuilder\Objects;
 
 use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Representation\PaginatedRepresentation;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
@@ -28,7 +29,7 @@ class PagerfantaBuilder
         return $pager;
     }
 
-    public function createRepresentation($route, $limit, $page)
+    public function createRepresentation($route, $limit, $page): PaginatedRepresentation
     {
         $pager = $this->create(
             $limit,

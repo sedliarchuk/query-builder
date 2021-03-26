@@ -1,2 +1,3 @@
 # query-builder
-symfony request query builder
+
+Модуль для работы с базой данных через API

@@ -1,24 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sedliarchuk
- * Date: 12.09.2018
- * Time: 11:49
- */
 
 namespace Sedliarchuk\QueryBuilder\Filters;
 
 
+use Doctrine\ORM\Query\Expr\Func;
 use Sedliarchuk\QueryBuilder\Repositories\BaseRepository;
 use Doctrine\ORM\QueryBuilder;
 
 class FilterBetween extends FilterAbstract
 {
-    const FILTER_ALIAS = 'between';
+    public const FILTER_ALIAS = 'between';
 
     /**
      * @param QueryBuilder $qb
-     * @return bool|\Doctrine\ORM\Query\Expr\Func
+     * @param BaseRepository $repository
+     * @return bool|Func
      */
     public function buildQuery(QueryBuilder $qb, BaseRepository $repository)
     {
@@ -26,26 +22,28 @@ class FilterBetween extends FilterAbstract
         $field = $this->getField();
 
         //проверяем на наличие поле в базе данных
-        if ( ! $this->issetField($field) or $this->isJoinField($field)) {
+        if (!$this->issetField($field) || $this->isJoinField($field)) {
             return false;
         }
 
-        $field = $this->getQBAlias($qb) .'.'.$this->getField();
-        if (is_array($this->getValue()) and count($this->getValue()) == 2) {
+        $field = $this->getQBAlias($qb) . '.' . $this->getField();
+        if (is_array($this->getValue()) && count($this->getValue()) === 2) {
             $values = $this->getValue();
         } else {
             $values = explode(',', $this->getValue());
         }
-        if (count($values) != 2) return false;
+        if (count($values) !== 2) {
+            return false;
+        }
 
-        $start = $this->getField().$this->getIntParameter();
-        $end = $this->getField().$this->getIntParameter();
+        $start = $this->getField() . $this->getIntParameter();
+        $end = $this->getField() . $this->getIntParameter();
 
-        $qb->setParameter($start ,$values[0]);
-        $qb->setParameter($end ,$values[1]);
+        $qb->setParameter($start, $values[0]);
+        $qb->setParameter($end, $values[1]);
 
         return $qb->expr()->between(
-            $field, ':'.$start, ':'.$end
+            $field, ':' . $start, ':' . $end
         );
     }
 }

@@ -11,7 +11,7 @@ class QueryBuilderOptions
         $this->options = $options;
     }
 
-    public static function fromArray(array $options)
+    public static function fromArray(array $options): QueryBuilderOptions
     {
         return new self($options);
     }
@@ -70,14 +70,14 @@ class QueryBuilderOptions
         return $this->get('select');
     }
 
-    public function validateOption($option, $defaultValue)
+    public function validateOption($option, $defaultValue): void
     {
         $optionIsDefinedNegativeAndNotNull = (
-            !isset($this->options[$option])
-            || $this->options[$option] < 0
-        ) && $defaultValue == null;
+                !isset($this->options[$option])
+                || $this->options[$option] < 0
+            ) && $defaultValue === null;
 
-        if ('limit' == $option && $optionIsDefinedNegativeAndNotNull) {
+        if ('limit' === $option && $optionIsDefinedNegativeAndNotNull) {
             $this->options[$option] = PHP_INT_MAX;
         }
     }

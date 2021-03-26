@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sedliarchuk
- * Date: 12.09.2018
- * Time: 11:49
- */
 
 namespace Sedliarchuk\QueryBuilder\Filters;
 
@@ -12,9 +6,9 @@ namespace Sedliarchuk\QueryBuilder\Filters;
 use Sedliarchuk\QueryBuilder\Repositories\BaseRepository;
 use Doctrine\ORM\QueryBuilder;
 
-class FilterEndSwith extends FilterAbstract
+class FilterEndSwitch extends FilterAbstract
 {
-    const FILTER_ALIAS = 'endswith';
+    public const FILTER_ALIAS = 'endswitch';
 
     public function buildQuery(QueryBuilder $qb, BaseRepository $repository)
     {
@@ -22,15 +16,15 @@ class FilterEndSwith extends FilterAbstract
         $field = $this->getField();
 
         //проверяем на наличие поле в базе данных
-        if ( ! $this->issetField($field) or $this->isJoinField($field)) {
+        if (!$this->issetField($field) || $this->isJoinField($field)) {
             return false;
         }
-        $field = $this->getQBAlias($qb) .'.'.$this->getField();
-        $parameterName = $this->getField().$this->getIntParameter();
-        $qb->setParameter($parameterName, '%'.$this->getValue());
+        $field = $this->getQBAlias($qb) . '.' . $this->getField();
+        $parameterName = $this->getField() . $this->getIntParameter();
+        $qb->setParameter($parameterName, '%' . $this->getValue());
 
         return $qb->expr()->like(
-            $field, ':'.$parameterName
+            $field, ':' . $parameterName
         );
     }
 }

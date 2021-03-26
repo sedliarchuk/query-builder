@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sedliarchuk
- * Date: 18.06.2018
- * Time: 13:41
- */
-
 namespace Sedliarchuk\QueryBuilder;
 
 

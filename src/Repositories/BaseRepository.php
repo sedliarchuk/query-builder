@@ -5,6 +5,8 @@ namespace Sedliarchuk\QueryBuilder\Repositories;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Representation\PaginatedRepresentation;
+use InvalidArgumentException;
 use Sedliarchuk\QueryBuilder\Filters\Type\FilterTypeManager;
 use Sedliarchuk\QueryBuilder\Objects\MetaDataAdapter;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -41,7 +43,7 @@ class BaseRepository extends EntityRepository
     }
 
 
-    public function useResultCache($bool)
+    public function useResultCache($bool): void
     {
         $this->useResultCache = $bool;
     }
@@ -51,10 +53,10 @@ class BaseRepository extends EntityRepository
      * @param Request|array $request
      * @return BaseRepository
      */
-    public function setRequest( $request)
+    public function setRequest($request): BaseRepository
     {
         if (!is_array($request) && !$request instanceof Request) {
-            throw new \InvalidArgumentException('$request must be a array or Request object.');
+            throw new InvalidArgumentException('$request must be a array or Request object.');
         }
         //запускаем менеджера типы фильтров
         $filterTypeManager = new FilterTypeManager();
@@ -79,7 +81,8 @@ class BaseRepository extends EntityRepository
      * @param QueryBuilder $qb
      * @return QueryBuilder
      */
-    function buildQuery(QueryBuilder $qb) {
+    public function buildQuery(QueryBuilder $qb): QueryBuilder
+    {
         //запускаем строительство в типах фильтров
         $this->getFilterTypeManager()->buildQuery($qb);
         return $qb;
@@ -94,10 +97,15 @@ class BaseRepository extends EntityRepository
         return $this->metadata;
     }
 
-    private function convertInArray($data) {
-        if ( ! is_array($data) and json_decode($data)) $data =  json_decode($data, true);
+    private function convertInArray($data): array
+    {
+        if (!is_array($data) && json_decode($data, true)) {
+            $data = json_decode($data, true);
+        }
 
-        if (! is_array($data)) return [];
+        if (!is_array($data)) {
+            return [];
+        }
 
         return $data;
     }
@@ -108,20 +116,19 @@ class BaseRepository extends EntityRepository
         return $this->request;
     }
 
-    public function setRouteName($routeName = '')
+    public function setRouteName($routeName = ''): BaseRepository
     {
         $this->routeName = $routeName;
         return $this;
     }
 
 
-
-    public function paginateResults(QueryBuilder $queryBuilder)
+    public function paginateResults(QueryBuilder $queryBuilder): PaginatedRepresentation
     {
         $ormAdapter = new DoctrineORMAdapter($queryBuilder);
         $pagerfantaBuilder = new PagerfantaBuilder(new PagerfantaFactory(), $ormAdapter);
         $pager = new Pager();
-        
+
         return $pager->paginateResults(
             $this->request,
             $ormAdapter,
@@ -152,12 +159,12 @@ class BaseRepository extends EntityRepository
         return $this->currentEntityAlias;
     }
 
-    protected function setCurrentEntityAlias($currentEntityAlias)
+    protected function setCurrentEntityAlias($currentEntityAlias): void
     {
         $this->currentEntityAlias = $currentEntityAlias;
     }
 
-    public function getEntityAlias()
+    public function getEntityAlias(): string
     {
         return $this->metadata->getEntityAlias();
     }

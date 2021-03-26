@@ -1,14 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sedliarchuk
- * Date: 12.09.2018
- * Time: 12:15
- */
 
 namespace Sedliarchuk\QueryBuilder\Filters;
-
-use Sedliarchuk\QueryBuilder\Filters\FilterAbstract;
 
 
 class FiltersManager
@@ -18,7 +10,7 @@ class FiltersManager
      */
     private $requestFilters = [];
 
-    function __construct()
+    public function __construct()
     {
         $this->init();
     }
@@ -29,30 +21,32 @@ class FiltersManager
     private $filtersStorage = [];
 
     /**
-     * @return FilterAbstract[]
+     * @param $key
+     * @return FilterAbstract|null
      */
-    public function getFilterStorage($key)
+    public function getFilterStorage($key): ?FilterAbstract
     {
-        return $this->filtersStorage;
+        return $this->filtersStorage[$key] ?? null;
     }
 
     /**
      * @param FilterAbstract[] $storage
      */
-    public function setFilterStorage($storage)
+    public function setFilterStorage(array $storage): void
     {
         $this->filtersStorage = $storage;
     }
 
     /**
-     * @param FilterAbstract[] $storage
+     * @param $key
+     * @param $filter
      */
-    public function addFilter($key, $filter)
+    public function addFilter($key, $filter): void
     {
         $this->filtersStorage[$key] = $filter;
     }
 
-    private function init()
+    private function init(): void
     {
         $this->loadClasses();
     }
@@ -61,16 +55,16 @@ class FiltersManager
      * из массива в объект
      * @param array $data
      */
-    public function handleFilter(array $data)
+    public function handleFilter(array $data): void
     {
-        if (!isset($data['field'])) return;
-        if (!isset($data['data'])) return;
-        if (!isset($data['data']['value'])) return;
-        if (!isset($data['data']['type'])) return;
-        if (!isset($this->filtersStorage[$data['data']['type']])) return;
+        if (
+        !isset($data['field'], $data['data']['value'], $data['data']['type'], $this->filtersStorage[$data['data']['type']])
+        ) {
+            return;
+        }
 
         //если фильтр равен дате
-        if (is_string($data['data']['value']) && preg_match(FilterAbstract::$datePattern, $data['data']['value']) && $data['data']['type'] == 'eq') {
+        if ($data['data']['type'] === FilterEq::FILTER_ALIAS && is_string($data['data']['value']) && preg_match(FilterAbstract::$datePattern, $data['data']['value'])) {
             $className = $this->filtersStorage[FilterBetween::FILTER_ALIAS];
         } else {
             $className = $this->filtersStorage[$data['data']['type']];
@@ -85,17 +79,21 @@ class FiltersManager
     }
 
 
-    private function loadClasses()
+    private function loadClasses(): void
     {
-        $dirContains = scandir(dirname(__FILE__));
+        $dirContains = scandir(__DIR__);
 
         foreach ($dirContains as $val) {
-            if (!preg_match('~^Filter((?!Abstract|Manager|Interface)[\s\S])*$~', $val)) continue;
+            if (!preg_match('~^Filter((?!Abstract|Manager|Interface)[\s\S])*$~', $val)) {
+                continue;
+            }
 
             $className = __NAMESPACE__ . '\\' . str_replace('.php', '', $val);
             /** @var FilterAbstract $obj */
             $obj = new $className();
-            if (!($obj instanceof FilterAbstract)) continue;
+            if (!($obj instanceof FilterAbstract)) {
+                continue;
+            }
             $this->addFilter($obj::getAlias(), $className);
         }
     }
@@ -117,9 +115,9 @@ class FiltersManager
     }
 
     /**
-     * @param FilterAbstract[] $requestFilters
+     * @param FilterAbstract $filter
      */
-    public function addRequestFilter(FilterAbstract $filter)
+    public function addRequestFilter(FilterAbstract $filter): void
     {
         $this->requestFilters[] = $filter;
     }

@@ -3,17 +3,16 @@
 namespace Sedliarchuk\QueryBuilder\Services;
 
 use Hateoas\Configuration\Route;
-use Sedliarchuk\QueryBuilder\Queries\QueryBuilderOptions;
 use Symfony\Component\HttpFoundation\Request;
 
 class Router
 {
-    public function createRouter(Request $request, $routeName) :Route
+    public function createRouter(Request $request, $routeName): Route
     {
         $params = [];
         $routeParams = [];
 
-        if (null != $request->attributes->get('_route_params')) {
+        if (null !== $request->attributes->get('_route_params')) {
             $routeParams = array_keys($request->attributes->get('_route_params'));
         }
 

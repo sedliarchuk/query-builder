@@ -12,22 +12,22 @@ class MetaDataAdapter
 
     private $entityName;
 
-    public function setClassMetadata(ClassMetadata $metadata)
+    public function setClassMetadata(ClassMetadata $metadata): void
     {
         $this->metadata = $metadata;
     }
 
-    public function setEntityName($entityName)
+    public function setEntityName($entityName): void
     {
         $this->entityName = $entityName;
     }
 
-    public function getFields()
+    public function getFields(): array
     {
         return array_keys($this->metadata->fieldMappings);
     }
 
-    public function getEntityAlias()
+    public function getEntityAlias(): string
     {
         $entityName = explode('\\', strtolower($this->entityName));
 
@@ -36,32 +36,31 @@ class MetaDataAdapter
         return $entityName[0];
     }
 
-    function issetField($field) {
+    public function issetField($field): bool
+    {
         $metadata = $this->metadata;
 
-        if ( ! @$metadata->getReflectionProperty($field)) {
+        if (!@$metadata->getReflectionProperty($field)) {
             return false;
         }
         return true;
     }
 
-    function isJoinField($field) {
+    public function isJoinField($field): bool
+    {
         $metadata = $this->metadata;
         try {
             $fieldJoin = $metadata->getAssociationMapping($field);
         } catch (MappingException $e) {
             $fieldJoin = false;
         }
-        if ( ! $fieldJoin or !isset($metadata->associationMappings[$field]['joinTable'])) {
-            return false;
-        }
-        return true;
+        return !(!$fieldJoin or !isset($metadata->associationMappings[$field]['joinTable']));
     }
 
     /**
      * @return ClassMetadata
      */
-    public function getMetadata()
+    public function getMetadata(): ClassMetadata
     {
         return $this->metadata;
     }

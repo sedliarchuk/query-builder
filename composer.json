@@ -11,7 +11,19 @@
         "email" : "sedliarchuk@gmail.com"
     }],
     "require" : {
-        "php": ">=7.1"
+        "php": ">=7.1",
+        "symfony/dependency-injection": "^3.3",
+        "symfony/config": "^3.3",
+        "symfony/http-kernel": "^3.3",
+        "doctrine/orm": "^2.5",
+        "pagerfanta/pagerfanta": "^1.0",
+        "willdurand/hateoas": "2.10",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    }
+    ,
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
     },
     "autoload":{
         "psr-4":{
