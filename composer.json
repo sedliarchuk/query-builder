@@ -16,7 +16,7 @@
         "symfony/config": "^3.3",
         "symfony/http-kernel": "^3.3",
         "doctrine/orm": "^2.5",
-        "pagerfanta/pagerfanta": "^1.0",
+        "babdev/pagerfanta-bundle": "^2.8",
         "willdurand/hateoas": "2.10",
         "ext-json": "*",
         "ext-mbstring": "*"
