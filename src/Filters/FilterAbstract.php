@@ -171,7 +171,7 @@ class FilterAbstract implements FilterInterface
         }
         if ($value === 'yesterday') {
             $date->modify('-1 day');
-        } else if (preg_match('/([\d])+(hour|minute|day|week|year|month)+(Ago)/', $value, $param)) {
+        } else if (preg_match('/([\d]*?)(hour|minute|day|week|year|month)(Ago)/', $value, $param)) {
             $date->modify('-' . $param[1] . ' ' . $param[2]);
         } else if (preg_match('/[\d]{4}-[\d]{2}-[\d]{2}/', $value, $param)) {
             $date = new DateTime($value);
