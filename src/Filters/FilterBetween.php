@@ -19,14 +19,14 @@ class FilterBetween extends FilterAbstract
     public function buildQuery(QueryBuilder $qb, BaseRepository $repository)
     {
         $this->setRepository($repository);
-        $field = $this->getField();
+
+        $fieldAlias = $this->getQbFieldAlias($qb);
 
         //проверяем на наличие поле в базе данных
-        if (!$this->issetField($field) || $this->isJoinField($field)) {
+        if (!$fieldAlias) {
             return false;
         }
 
-        $field = $this->getQBAlias($qb) . '.' . $this->getField();
         if (is_array($this->getValue()) && count($this->getValue()) === 2) {
             $values = $this->getValue();
         } else {
@@ -36,14 +36,14 @@ class FilterBetween extends FilterAbstract
             return false;
         }
 
-        $start = $this->getField() . $this->getIntParameter();
-        $end = $this->getField() . $this->getIntParameter();
+        $start = preg_replace('~[^A-z]~', '', $this->getField()) . $this->getIntParameter();
+        $end = preg_replace('~[^A-z]~', '', $this->getField()) . $this->getIntParameter();
 
         $qb->setParameter($start, $values[0]);
         $qb->setParameter($end, $values[1]);
 
         return $qb->expr()->between(
-            $field, ':' . $start, ':' . $end
+            $fieldAlias, ':' . $start, ':' . $end
         );
     }
 }

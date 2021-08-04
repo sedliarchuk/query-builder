@@ -98,6 +98,37 @@ class FilterAbstract implements FilterInterface
         return $this->field;
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getQbFieldAlias(QueryBuilder $qb): ?string
+    {
+        $field = $this->getField();
+        $fieldData = explode('.', $field);
+        $fieldName = $fieldData[0];
+
+        //проверяем на наличие поле в базе данных
+        if ($this->issetField($fieldName) && !$this->isJoinField($fieldName)) {
+            return $field = $this->getQBAlias($qb) . '.' . $fieldName;;
+        }
+
+        if (!$this->isJoinField($fieldName)) {
+            return null;
+        }
+
+        //имя поля
+        $field = $this->getQBAlias($qb) . '.' . $fieldName;
+        //создаем линк на таблицу
+        $tableAlias = mb_strcut($field, 0, 1) . $this->getIntParameter();
+        $qb->innerJoin($field, $tableAlias);
+
+        if (!isset($fieldData[1])) {
+            return $tableAlias . '.id';
+        }
+        return $tableAlias . '.' . $fieldData[1];
+    }
+
     /**
      * @param mixed $field
      * @return FilterAbstract

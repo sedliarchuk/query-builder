@@ -75,6 +75,7 @@ class FiltersManager
         $filter
             ->setField($data['field'])
             ->setValue($data['data']['value']);
+
         $this->addRequestFilter($filter);
     }
 

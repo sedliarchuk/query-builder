@@ -13,16 +13,15 @@ class FilterIsNull extends FilterAbstract
     public function buildQuery(QueryBuilder $qb, BaseRepository $repository)
     {
         $this->setRepository($repository);
-        $field = $this->getField();
+        $fieldAlias = $this->getQbFieldAlias($qb);
 
         //проверяем на наличие поле в базе данных
-        if (!$this->issetField($field) || $this->isJoinField($field)) {
+        if (!$fieldAlias) {
             return false;
         }
-        $field = $this->getQBAlias($qb) . '.' . $this->getField();
 
         return $qb->expr()->isNull(
-            $field
+            $fieldAlias
         );
     }
 }

@@ -13,20 +13,18 @@ class FilterNlist extends FilterAbstract
     public function buildQuery(QueryBuilder $qb, BaseRepository $repository)
     {
         $this->setRepository($repository);
-        $field = $this->getField();
+        $fieldAlias = $this->getQbFieldAlias($qb);
 
         //проверяем на наличие поле в базе данных
-        if (!$this->issetField($field) || $this->isJoinField($field)) {
+        if (!$fieldAlias) {
             return false;
         }
-        $field = $this->getQBAlias($qb) . '.' . $this->getField();
-        $parameterName = $this->getField() . $this->getIntParameter();
+        $parameterName = preg_replace('~[^A-z]~', '', $this->getField()) . $this->getIntParameter();
         $value = explode(',', $this->getValue());
-
         $qb->setParameter($parameterName, $value);
 
         return $qb->expr()->notIn(
-            $field, ':' . $parameterName
+            $fieldAlias, ':' . $parameterName
         );
     }
 }
