@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 class FilterAbstract implements FilterInterface
 {
     public static $parameterInt = 0;
-    public static $datePattern = '/^([\d]{4}-[\d]{2}-[\d]{2}|today|yesterday|[\d]+((minute|hour|day|week|year|month)Ago))$/';
+    public static $datePattern = '/^([\d]{4}-[\d]{2}-[\d]{2}|[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}|today|yesterday|[\d]+((minute|hour|day|week|year|month)Ago))$/';
     private $meta;
     private $substitutionPattern;
     private $field;
@@ -198,7 +198,7 @@ class FilterAbstract implements FilterInterface
         if (preg_match('~(yesterday|hour|minute|day|week|year|month|today)~', $value, $res)) {
             $key = $res[0];
         } else {
-            throw new Exception('Key not found', 500);
+            return new DateTime($value);
         }
         if ($value === 'yesterday') {
             $date->modify('-1 day');
@@ -226,7 +226,7 @@ class FilterAbstract implements FilterInterface
             return $date->format('Y-m-d H:i:s');
         }
 
-        return $date->format('Y-m-d 00:00:00');
+        return $date;
 
     }
 }

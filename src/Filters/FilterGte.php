@@ -20,9 +20,15 @@ class FilterGte extends FilterAbstract
         if (!$fieldAlias) {
             return false;
         }
+
         $parameterName = preg_replace('~[^A-z]~', '', $this->getField()) . $this->getIntParameter();
         $qb->setParameter($parameterName, $this->getValue());
 
+        if ($this->getValue() instanceof \DateTime) {
+            return $qb->expr()->gte(
+                'DATE('.$fieldAlias.')', ':' . $parameterName
+            );
+        }
         return $qb->expr()->gte(
             $fieldAlias, ':' . $parameterName
         );
