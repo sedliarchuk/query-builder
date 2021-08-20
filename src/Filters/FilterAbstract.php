@@ -40,6 +40,22 @@ class FilterAbstract implements FilterInterface
         return true;
     }
 
+
+    public function isDateTypeField($fieldName):bool
+    {
+        $metadata = $this->repository->getMetadata()->getMetadata();
+
+        try {
+            $fieldData = $metadata->getFieldMapping($fieldName);
+            if (isset($fieldData['type']) && $fieldData['type'] === 'datetime') {
+                return true;
+            }
+        } catch (Exception $exception) {
+            return false;
+        }
+
+        return false;
+    }
     /**
      * Проверка на внешние таблицы
      * @param $field

@@ -24,7 +24,7 @@ class FilterGte extends FilterAbstract
         $parameterName = preg_replace('~[^A-z]~', '', $this->getField()) . $this->getIntParameter();
         $qb->setParameter($parameterName, $this->getValue());
 
-        if ($this->getValue() instanceof \DateTime) {
+        if ($this->getValue() instanceof \DateTime && !$this->isDateTypeField($this->getField())) {
             return $qb->expr()->gte(
                 'DATE('.$fieldAlias.')', ':' . $parameterName
             );
