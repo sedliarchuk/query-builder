@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 class FilterAbstract implements FilterInterface
 {
     public static $parameterInt = 0;
-    public static $datePattern = '/^([\d]{4}-[\d]{2}-[\d]{2}|[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}|today|yesterday|[\d]+((minute|hour|day|week|year|month)Ago))$/';
+    public static $datePattern = '/^([\d]{4}-[\d]{2}-[\d]{2}|[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}|today|yesterday|[\d]+((minute|hour|day|week|year|month)Ago))|[\d]+(day)$/';
     private $meta;
     private $substitutionPattern;
     private $field;
@@ -211,11 +211,16 @@ class FilterAbstract implements FilterInterface
     {
         $date = new DateTime();
         $key = false;
-        if (preg_match('~(yesterday|hour|minute|day|week|year|month|today)~', $value, $res)) {
+        if (preg_match('~^(yesterday|hour|minute|day|week|year|month|today)$~', $value, $res)) {
             $key = $res[0];
         } else {
             return new DateTime($value);
         }
+
+        if (preg_match('~^(\d+)(day)$~', $value, $res)) {
+            return new DateTime($res[1].' day');
+        }
+
         if ($value === 'yesterday') {
             $date->modify('-1 day');
         } else if (preg_match('/([\d]*?)(hour|minute|day|week|year|month)(Ago)/', $value, $param)) {
