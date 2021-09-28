@@ -12,6 +12,7 @@ class FilterAbstract implements FilterInterface
 {
     public static $parameterInt = 0;
     public static $datePattern = '/^([\d]{4}-[\d]{2}-[\d]{2}|[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}|today|yesterday|[\d]+((minute|hour|day|week|year|month)Ago)|[\d]+(day))$/';
+    public static $dateBetweenPattern = '/^(today|month|year|week|day|yesterday|hour|minute)$/';
     private $meta;
     private $substitutionPattern;
     private $field;
@@ -126,7 +127,7 @@ class FilterAbstract implements FilterInterface
 
         //проверяем на наличие поле в базе данных
         if ($this->issetField($fieldName) && !$this->isJoinField($fieldName)) {
-            return $field = $this->getQBAlias($qb) . '.' . $fieldName;;
+            return $this->getQBAlias($qb) . '.' . $fieldName;
         }
 
         if (!$this->isJoinField($fieldName)) {
@@ -213,8 +214,8 @@ class FilterAbstract implements FilterInterface
         $key = false;
         if (preg_match('~^(yesterday|hour|minute|day|week|year|month|today)$~', $value, $res)) {
             $key = $res[0];
-        } else {
-            return new DateTime($value);
+        } elseif (preg_match('~^[\d]{4}-[\d]{2}-[\d]{2}|[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}$~', $value)) {
+            $date = new DateTime($value);
         }
 
         if (preg_match('~^(\d+)(day)$~', $value, $res)) {
@@ -248,6 +249,5 @@ class FilterAbstract implements FilterInterface
         }
 
         return $date;
-
     }
 }

@@ -64,7 +64,7 @@ class FiltersManager
         }
 
         //если фильтр равен дате
-        if ($data['data']['type'] === FilterEq::FILTER_ALIAS && is_string($data['data']['value']) && preg_match(FilterAbstract::$datePattern, $data['data']['value'])) {
+        if ($data['data']['type'] === FilterEq::FILTER_ALIAS && is_string($data['data']['value']) && preg_match(FilterAbstract::$dateBetweenPattern, $data['data']['value'])) {
             $className = $this->filtersStorage[FilterBetween::FILTER_ALIAS];
         } else {
             $className = $this->filtersStorage[$data['data']['type']];
