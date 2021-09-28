@@ -27,9 +27,10 @@ class FilterBetween extends FilterAbstract
             return false;
         }
 
+        $values = [];
         if (is_array($this->getValue()) && count($this->getValue()) === 2) {
             $values = $this->getValue();
-        } else {
+        } elseif(is_string($this->getValue())) {
             $values = explode(',', $this->getValue());
         }
         if (count($values) !== 2) {
