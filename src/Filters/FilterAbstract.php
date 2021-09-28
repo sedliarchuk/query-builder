@@ -11,7 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 class FilterAbstract implements FilterInterface
 {
     public static $parameterInt = 0;
-    public static $datePattern = '/^([\d]{4}-[\d]{2}-[\d]{2}|[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}|today|yesterday|[\d]+((minute|hour|day|week|year|month)Ago))|[\d]+(day)$/';
+    public static $datePattern = '/^([\d]{4}-[\d]{2}-[\d]{2}|[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}|today|yesterday|[\d]+((minute|hour|day|week|year|month)Ago)|[\d]+(day))$/';
     private $meta;
     private $substitutionPattern;
     private $field;
